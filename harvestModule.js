@@ -7,8 +7,7 @@ module.exports = {
         var targetSource = Math.floor(Math.random() * Math.floor(sources.length));
         //console.log(targetSource);
 
-        //when there is only one active resource but targetNumber is 1 (not 0)
-        
+        //when the source has no energy left
         if (sources[targetNumber].energy == 0) {
             targetNumber = 0;
             sources = creep.room.find(FIND_STRUCTURES, {

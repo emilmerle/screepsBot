@@ -5,6 +5,7 @@ var roleRoadbuilder = {
 
         //own harvest function
         var harvestModule = require("harvestModule");
+        var buildingModule = require("buildingModule");
 
         if(creep.memory.building && creep.store[RESOURCE_ENERGY] === 0) {
             creep.memory.building = false;
@@ -32,6 +33,8 @@ var roleRoadbuilder = {
         else {
             harvestModule.ownHarvest(creep, 1);
         }
+        //only for testing
+        console.log(creep.name[creep.name.length-1]);
     }
 };
 
