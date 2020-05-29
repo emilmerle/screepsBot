@@ -9,7 +9,7 @@ module.exports = {
         var buildingTargets = creep.room.find(FIND_CONSTRUCTION_SITES);
         if (buildingTargets.length) {
             if (creep.build(buildingTargets[0]) === ERR_NOT_IN_RANGE) {
-                creep.moveTo(buildingTargets[0], {visualizePathStyle: {stroke: '#ffaa00'}});
+                creep.moveTo(buildingTargets[0]);
                 return 1;
             } else {
                 return 1;
@@ -33,7 +33,7 @@ module.exports = {
         });
         if (repairingTargets.length) {
             if (creep.repair(repairingTargets[0]) === ERR_NOT_IN_RANGE) {
-                creep.moveTo(repairingTargets[0], {visualizePathStyle: {stroke: '#ffaa00'}});
+                creep.moveTo(repairingTargets[0]);
                 return 1;
             } else {
                 return 1;
@@ -51,7 +51,7 @@ module.exports = {
      */
     ownUpgrading: function(creep) {
         if(creep.upgradeController(creep.room.controller) === ERR_NOT_IN_RANGE) {
-            creep.moveTo(creep.room.controller, {visualizePathStyle: {stroke: '#38ff00'}});
+            creep.moveTo(creep.room.controller);
             return 1;
         } else {
             return 1;

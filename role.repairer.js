@@ -19,7 +19,7 @@ var roleRepairer = {
 		if(creep.memory.building) {
 			var repairingFinished = buildingModule.ownRepairing(creep);
 			if(repairingFinished != 1){
-				creep.moveTo(Game.flags.CollectionPoint, {visualizePathStyle: {stroke: 'rgba(255,255,255,0.8)'}});
+				creep.moveTo(Game.flags.CollectionPoint);
 			}
 		}
 		else {
@@ -28,7 +28,7 @@ var roleRepairer = {
                 harvestFinished = harvestModule.ownHarvestFromContainer(creep);
             }
             if(harvestFinished != 1){
-                creep.moveTo(Game.flags.CollectionPoint, {visualizePathStyle: {stroke: 'rgba(255,255,255,0.8)'}});
+                creep.moveTo(Game.flags.CollectionPoint);
             }
 		}
 	}

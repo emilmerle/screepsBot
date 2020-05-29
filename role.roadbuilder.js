@@ -24,10 +24,10 @@ var roleRoadbuilder = {
             });
             if (targets.length) {
                 if (creep.build(targets[0]) === ERR_NOT_IN_RANGE) {
-                    creep.moveTo(targets[0], {visualizePathStyle: {stroke: 'rgba(255,255,255,0.8)'}});
+                    creep.moveTo(targets[0]);
                 }
             } else {
-                creep.moveTo(Game.flags.CollectionPoint, {visualizePathStyle: {stroke: 'rgba(255,255,255,0.8)'}});
+                creep.moveTo(Game.flags.CollectionPoint);
             }
         }
         else {
@@ -36,7 +36,7 @@ var roleRoadbuilder = {
                 harvestFinished = harvestModule.ownHarvestFromContainer(creep);
             }
             if(harvestFinished != 1){
-                creep.moveTo(Game.flags.CollectionPoint, {visualizePathStyle: {stroke: 'rgba(255,255,255,0.8)'}});
+                creep.moveTo(Game.flags.CollectionPoint);
             }
         }
     }

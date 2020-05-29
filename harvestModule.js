@@ -19,7 +19,7 @@ module.exports = {
 
         if(sources.length) {
             if(creep.harvest(sources[targetSource]) === ERR_NOT_IN_RANGE) {
-                creep.moveTo(sources[targetSource], {visualizePathStyle: {stroke: '#f9ff52'}});
+                creep.moveTo(sources[targetSource]);
                 return 1;
             } else {
                 return 1;
@@ -29,7 +29,7 @@ module.exports = {
             sources = creep.room.find(FIND_DROPPED_RESOURCES);
             if(sources.length){
                 if(creep.pickup(sources[0]) === ERR_NOT_IN_RANGE) {
-                    creep.moveTo(sources[0], {visualizePathStyle: {stroke: '#f9ff52'}});
+                    creep.moveTo(sources[0]);
                     return 1;
                 } else {
                     return 1;
@@ -57,7 +57,7 @@ module.exports = {
 
         if (sources.length) {
             if(creep.withdraw(sources[0]) === ERR_NOT_IN_RANGE) {
-                creep.moveTo(sources[0], {visualizePathStyle: {stroke: '#f9ff52'}});
+                creep.moveTo(sources[0]);
                 return 1;
             } else {
                 return 1;

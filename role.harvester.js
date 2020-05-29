@@ -2,29 +2,36 @@ var roleHarvester = {
 
     /** @param {Creep} creep **/
     run: function(creep) {
-        //own harvest function
+        //own modules
         var harvestModule = require("harvestModule");
         var transferModule = require("transferModule");
 
-        //set status to "building" or "harvesting"
-        if(creep.memory.harvesting && creep.store[RESOURCE_ENERGY] === 0) {
-            creep.memory.harvesting = false;
+        //set "working" status to true or false based on energy stored in the creep
+        if(creep.memory.working && creep.store[RESOURCE_ENERGY] === 0) {
+            creep.memory.working = false;
             creep.say('🔄 harvest');
 	    }
-	    	if(!creep.memory.harvesting && creep.store.getFreeCapacity() === 0) {
-	        creep.memory.harvesting = true;
+	    	if(!creep.memory.working && creep.store.getFreeCapacity() === 0) {
+	        creep.memory.working = true;
 	        creep.say('transfering');
 	    }
 
-        if(creep.memory.harvesting) {
-            transferModule.ownTransfering(creep);
+        if(creep.memory.working) {
+            //transfering stored energy to spawn or other structures
+            var transferingFinished = transferModule.ownTransfering(creep);
+            if(transferingFinished != 1){
+                creep.moveTo(Game.flags.CollectionPoint);
+            }
         } else {
+            //trying to harvest energy from primary source
             var harvestFinished = harvestModule.ownHarvest(creep, 0);
             if(harvestFinished != 1){
+                //trying to withdrawn from container if energy source empty
                 harvestFinished = harvestModule.ownHarvestFromContainer(creep);
             }
             if(harvestFinished != 1){
-                creep.moveTo(Game.flags.CollectionPoint, {visualizePathStyle: {stroke: 'rgba(255,255,255,0.8)'}});
+                //moving to CollectionPoint if nothing to do
+                creep.moveTo(Game.flags.CollectionPoint);
             }
         }
 	}

@@ -31,7 +31,7 @@ var roleBuilder = {
                 harvestFinished = harvestModule.ownHarvestFromContainer(creep);
             }
             if(harvestFinished != 1){
-                creep.moveTo(Game.flags.CollectionPoint, {visualizePathStyle: {stroke: 'rgba(255,255,255,0.8)'}});
+                creep.moveTo(Game.flags.CollectionPoint);
             }
 	    }
 	}
