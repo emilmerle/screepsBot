@@ -17,7 +17,13 @@ var roleBuilder = {
 	    }
 
 	    if(creep.memory.building) {
-	        buildingModule.ownBuilding(creep);
+			var buildingFinished = buildingModule.ownBuilding(creep);
+			if(buildingFinished != 1){
+                buildingFinished = buildingModule.ownRepairing(creep);
+            }
+            if(buildingFinished != 1){
+				buildingModule.ownUpgrading(creep);
+            }
 	    }
 	    else {
 	        var harvestFinished = harvestModule.ownHarvest(creep, 0);

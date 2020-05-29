@@ -1,42 +1,61 @@
 module.exports = {
-
+    /**
+     * building function for building the construction sites in the room it is in
+     * 
+     * @param {Object} creep creep that should build something
+     * @returns {Number} 1 if there are construction sites to build, -1 else
+     */
     ownBuilding: function(creep) {
         var buildingTargets = creep.room.find(FIND_CONSTRUCTION_SITES);
         if (buildingTargets.length) {
             if (creep.build(buildingTargets[0]) === ERR_NOT_IN_RANGE) {
                 creep.moveTo(buildingTargets[0], {visualizePathStyle: {stroke: '#ffaa00'}});
-            }
-        }
-        //has to be edited because to complex for one function
-        else {
-            buildingTargets = creep.room.find(FIND_STRUCTURES, {
-            filter: (structure) => {
-                return (structure.hits < structure.hitsMax);
-                }
-            });
-            if (buildingTargets.length) {
-                if (creep.repair(buildingTargets[0]) === ERR_NOT_IN_RANGE) {
-                    creep.moveTo(buildingTargets[0], {visualizePathStyle: {stroke: '#ffaa00'}});
-                }
+                return 1;
             } else {
-                creep.moveTo(Game.flags.CollectionPoint, {visualizePathStyle: {stroke: '#ffaa00'}});
+                return 1;
             }
+        } else {
+            return -1;
         }
     },
 
+    /**
+     * repairing function to repair structures that have less than max Hits in the room it is in
+     * 
+     * @param {Object} creep creep that should repair something
+     * @returns {Number} 1 if there are structures to repair, -1 else
+     */
     ownRepairing: function(creep) {
         var repairingTargets = creep.room.find(FIND_STRUCTURES, {
             filter: (structure) => {
                 return (structure.hits < structure.hitsMax);
-                }
-            });
-            if (repairingTargets.length) {
-                if (creep.repair(buildingTargets[0]) === ERR_NOT_IN_RANGE) {
-                    creep.moveTo(buildingTargets[0], {visualizePathStyle: {stroke: '#ffaa00'}});
-                }
-            } else {
-                creep.moveTo(Game.flags.CollectionPoint, {visualizePathStyle: {stroke: '#ffaa00'}});
             }
+        });
+        if (repairingTargets.length) {
+            if (creep.repair(repairingTargets[0]) === ERR_NOT_IN_RANGE) {
+                creep.moveTo(repairingTargets[0], {visualizePathStyle: {stroke: '#ffaa00'}});
+                return 1;
+            } else {
+                return 1;
+            }
+        } else {
+            return -1;
+        }
     },
+
+    /**
+     * function for upgradig the own controller in the room the creep is in
+     * 
+     * @param {Object} creep creep that should upgrade
+     * @returns {Number} always 1, because upgrading should always be possible
+     */
+    ownUpgrading: function(creep) {
+        if(creep.upgradeController(creep.room.controller) === ERR_NOT_IN_RANGE) {
+            creep.moveTo(creep.room.controller, {visualizePathStyle: {stroke: '#38ff00'}});
+            return 1;
+        } else {
+            return 1;
+        }
+    }
 };
 

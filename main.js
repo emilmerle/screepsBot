@@ -90,6 +90,7 @@ module.exports.loop = function () {
     
     //console.log("totalCreeps: " + totalCreeps);
     //console.log("totalRoleCreeps: " + totalRoleCreeps)
+    
 
     console.log('Harvester: ' + harvesters.length + "/" + totalRoleCreeps*2);
     console.log('Upgrader: ' + upgraders.length + "/" + totalRoleCreeps*2);

@@ -5,6 +5,7 @@ var roleUpgrader = {
 
         //own harvest function
         var harvestModule = require("harvestModule");
+        var buildingModule = require("buildingModule");
 
         if(creep.memory.upgrading && creep.store[RESOURCE_ENERGY] === 0) {
             creep.memory.upgrading = false;
@@ -16,9 +17,7 @@ var roleUpgrader = {
 	    }
 
 	    if(creep.memory.upgrading) {
-            if(creep.upgradeController(creep.room.controller) === ERR_NOT_IN_RANGE) {
-                creep.moveTo(creep.room.controller, {visualizePathStyle: {stroke: '#38ff00'}});
-            }
+            buildingModule.ownUpgrading(creep);
         }
         else {
             var harvestFinished = harvestModule.ownHarvest(creep, 1);

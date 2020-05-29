@@ -4,7 +4,8 @@ var roleRepairer = {
 	run: function (creep) {
 
 		//own harvest function
-        var harvestModule = require("harvestModule");
+		var harvestModule = require("harvestModule");
+		var buildingModule = require("buildingModule");
 
 		if (creep.memory.building && creep.store[RESOURCE_ENERGY] === 0) {
 			creep.memory.building = false;
@@ -16,22 +17,9 @@ var roleRepairer = {
 		}
 
 		if(creep.memory.building) {
-			var targets = creep.room.find(FIND_STRUCTURES, {
-				filter: (structure) => {
-					return ((structure.structureType === STRUCTURE_CONTAINER || structure.structureType === STRUCTURE_ROAD) &&
-							structure.hits < structure.hitsMax
-					);
-				}
-			});
-
-			//console.log(targets[0]);
-
-			if (targets.length) {
-				if (creep.repair(targets[0]) === ERR_NOT_IN_RANGE) {
-					creep.moveTo(targets[0], {visualizePathStyle: {stroke: '#ff00d1'}});
-				}
-			} else {
-				creep.moveTo(Game.flags.CollectionPoint, {visualizePathStyle: {stroke: '#ff00d1'}});
+			var repairingFinished = buildingModule.ownRepairing(creep);
+			if(repairingFinished != 1){
+				creep.moveTo(Game.flags.CollectionPoint, {visualizePathStyle: {stroke: 'rgba(255,255,255,0.8)'}});
 			}
 		}
 		else {
