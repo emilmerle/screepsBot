@@ -35,7 +35,13 @@ var roleRepairer = {
 			}
 		}
 		else {
-			harvestModule.ownHarvest(creep, 0);
+			var harvestFinished = harvestModule.ownHarvest(creep, 0);
+            if(harvestFinished != 1){
+                harvestFinished = harvestModule.ownHarvestFromContainer(creep);
+            }
+            if(harvestFinished != 1){
+                creep.moveTo(Game.flags.CollectionPoint, {visualizePathStyle: {stroke: 'rgba(255,255,255,0.8)'}});
+            }
 		}
 	}
 };

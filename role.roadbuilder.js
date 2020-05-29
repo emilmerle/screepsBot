@@ -24,17 +24,21 @@ var roleRoadbuilder = {
             });
             if (targets.length) {
                 if (creep.build(targets[0]) === ERR_NOT_IN_RANGE) {
-                    creep.moveTo(targets[0], {visualizePathStyle: {stroke: 'rgba(255,255,255,0.68)'}});
+                    creep.moveTo(targets[0], {visualizePathStyle: {stroke: 'rgba(255,255,255,0.8)'}});
                 }
             } else {
-                creep.moveTo(Game.flags.CollectionPoint, {visualizePathStyle: {stroke: 'rgba(255,255,255,0.75)'}});
+                creep.moveTo(Game.flags.CollectionPoint, {visualizePathStyle: {stroke: 'rgba(255,255,255,0.8)'}});
             }
         }
         else {
-            harvestModule.ownHarvest(creep, 1);
+            var harvestFinished = harvestModule.ownHarvest(creep, 1);
+            if(harvestFinished != 1){
+                harvestFinished = harvestModule.ownHarvestFromContainer(creep);
+            }
+            if(harvestFinished != 1){
+                creep.moveTo(Game.flags.CollectionPoint, {visualizePathStyle: {stroke: 'rgba(255,255,255,0.8)'}});
+            }
         }
-        //only for testing
-        console.log(creep.name[creep.name.length-1]);
     }
 };
 

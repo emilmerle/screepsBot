@@ -1,40 +1,52 @@
 module.exports = {
 
     ownHarvest: function(creep, targetNumber) {
-        var sources = creep.room.find(FIND_SOURCES);
-        
-        //can decide to which source if more than one source is in the room (not good because every tick = new source)
-        var targetSource = Math.floor(Math.random() * Math.floor(sources.length));
-        //console.log(targetSource);
+        //creep that should do something and index of source to be harvested
 
-        //when the source has no energy left
-        if (sources[targetNumber].energy == 0) {
-            targetNumber = 0;
-            sources = creep.room.find(FIND_STRUCTURES, {
-                filter: (structure) => {
-                    return (structure.structureType === STRUCTURE_CONTAINER &&
-                        structure.store[RESOURCE_ENERGY] > 0);
-                }
-            });
-        }
+        var sources = creep.room.find(FIND_SOURCES);
+        //adjusts the targetSource variable if the targetNumber was too high
+        var targetSource = (sources.length-1 < targetNumber) ? sources.length-1 : targetNumber;
+        //console.log(targetSource);
+        //TODO: (creep.name[creep.name.length-1] % 2)
+        
 
         if(sources.length) {
-            if(sources[targetNumber].structureType === STRUCTURE_CONTAINER) {
-                if(creep.withdraw(sources[targetNumber], RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
-                    creep.moveTo(sources[targetNumber], {visualizePathStyle: {stroke: '#f9ff52'}});
-                }
+            if(creep.harvest(sources[targetSource]) === ERR_NOT_IN_RANGE) {
+                creep.moveTo(sources[targetSource], {visualizePathStyle: {stroke: '#f9ff52'}});
+                return 1;
             } else {
-                if(creep.harvest(sources[targetNumber]) === ERR_NOT_IN_RANGE) {
-                creep.moveTo(sources[targetNumber], {visualizePathStyle: {stroke: '#f9ff52'}});
-                }
+                return 1;
             }
         } else {
-            //when there is no active source in the room
+            //only when there is no source with energy in the room
             sources = creep.room.find(FIND_DROPPED_RESOURCES);
-
-            if(creep.harvest(sources[targetNumber]) === ERR_NOT_IN_RANGE) {
-                creep.moveTo(sources[targetNumber], {visualizePathStyle: {stroke: '#f9ff52'}});
+            if(sources.length){
+                if(creep.pickup(sources[0]) === ERR_NOT_IN_RANGE) {
+                    creep.moveTo(sources[0], {visualizePathStyle: {stroke: '#f9ff52'}});
+                    return 1;
+                }
+            } else {
+                return -1;
             }
+        }
+    },
+
+    ownHarvestFromContainer: function(creep) {
+        var sources = creep.room.find(FIND_STRUCTURES, {
+            filter: (structure) => {
+                return (structure.structureType === STRUCTURE_CONTAINER)
+                    && structure.store.getUsedCapacity() > 0;
+            }
+        });
+        if (sources.length) {
+            if(creep.withdraw(sources[0]) === ERR_NOT_IN_RANGE) {
+                creep.moveTo(sources[0], {visualizePathStyle: {stroke: '#f9ff52'}});
+                return 1;
+            } else {
+                return 1;
+            }
+        } else {
+            return -1;
         }
     }
 };

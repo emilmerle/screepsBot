@@ -13,7 +13,7 @@ module.exports = {
         if (targets.length == 0) {
             targets = creep.room.find(FIND_STRUCTURES, {
                 filter: (structure) => {
-                    return (structure.structureType === STRUCTURE_CONTAINER)
+                    return (structure.structureType === STRUCTURE_CONTAINER || structure.structureType === STRUCTURE_TOWER)
                         && structure.store.getFreeCapacity(RESOURCE_ENERGY) > 0;
                 }
             });

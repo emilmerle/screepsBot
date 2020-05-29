@@ -19,12 +19,15 @@ var roleUpgrader = {
             if(creep.upgradeController(creep.room.controller) === ERR_NOT_IN_RANGE) {
                 creep.moveTo(creep.room.controller, {visualizePathStyle: {stroke: '#38ff00'}});
             }
-            else {
-                creep.moveTo(Game.flags.CollectionPoint, {visualizePathStyle: {stroke: '#ffaa00'}});
-            }
         }
         else {
-            harvestModule.ownHarvest(creep, 1);
+            var harvestFinished = harvestModule.ownHarvest(creep, 1);
+            if(harvestFinished != 1){
+                harvestFinished = harvestModule.ownHarvestFromContainer(creep);
+            }
+            if(harvestFinished != 1){
+                creep.moveTo(Game.flags.CollectionPoint, {visualizePathStyle: {stroke: 'rgba(255,255,255,0.8)'}});
+            }
         }
 	}
 };
