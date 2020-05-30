@@ -20,7 +20,16 @@ module.exports = {
         if (targets.length == 0) {
             targets = creep.room.find(FIND_STRUCTURES, {
                 filter: (structure) => {
-                    return (structure.structureType === STRUCTURE_CONTAINER || structure.structureType === STRUCTURE_TOWER || structure.structureType === STRUCTURE_STORAGE)
+                    return (structure.structureType === STRUCTURE_TOWER)
+                        && structure.store.getFreeCapacity(RESOURCE_ENERGY) > 0;
+                }
+            });
+        }
+
+        if (targets.length == 0) {
+            targets = creep.room.find(FIND_STRUCTURES, {
+                filter: (structure) => {
+                    return (structure.structureType === STRUCTURE_CONTAINER || structure.structureType === STRUCTURE_STORAGE)
                         && structure.store.getFreeCapacity(RESOURCE_ENERGY) > 0;
                 }
             });

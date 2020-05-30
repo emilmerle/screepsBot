@@ -3,11 +3,13 @@ var roleUpgrader = require('role.upgrader');
 var roleBuilder = require('role.builder');
 var roleRoadbuilder = require("role.roadbuilder");
 var roleRepairer = require("role.repairer");
+var towerModule = require("towerModule");
 
 module.exports.loop = function () {
 
-
     console.log('\n');
+    const BODYPARTS = [WORK, WORK, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE];
+
     
     for(var name in Memory.creeps) {
         if(!Game.creeps[name]) {
@@ -37,7 +39,7 @@ module.exports.loop = function () {
 
     //defines when and how many new creeps spawn
     //should be in its own module
-    if(repairer.length < 1) {
+    if(repairer.length < totalRoleCreeps) {
 
         var newName = 'Repairer' + Game.time;
         console.log('Trying to spawn new Repairer: ' + newName);
@@ -90,15 +92,19 @@ module.exports.loop = function () {
     
     //console.log("totalCreeps: " + totalCreeps);
     //console.log("totalRoleCreeps: " + totalRoleCreeps)
-    
+
 
     console.log('Harvester: ' + harvesters.length + "/" + totalRoleCreeps*2);
     console.log('Upgrader: ' + upgraders.length + "/" + totalRoleCreeps*2);
     console.log('Builder: ' + builders.length + "/" + totalRoleCreeps*2);
     console.log('Roadbuilder: ' + roadbuilders.length + "/" + totalRoleCreeps);
-    console.log('Repairer: ' + repairer.length + "/" + 1);
+    console.log('Repairer: ' + repairer.length + "/" + totalRoleCreeps);
 
     //main game loop
+    //towers
+    towerModule.ownAttackHostiles();
+
+    //creeps
     for(var name in Game.creeps) {
         var creep = Game.creeps[name];
         if(creep.memory.role === 'repairer') {

@@ -21,6 +21,8 @@ module.exports = {
             if(creep.harvest(sources[targetSource]) === ERR_NOT_IN_RANGE) {
                 creep.moveTo(sources[targetSource]);
                 return 1;
+            } else if(creep.harvest(sources[targetSource]) === ERR_NOT_ENOUGH_RESOURCES){
+                return -1;
             } else {
                 return 1;
             }
@@ -56,7 +58,7 @@ module.exports = {
         });
 
         if (sources.length) {
-            if(creep.withdraw(sources[0]) === ERR_NOT_IN_RANGE) {
+            if(creep.withdraw(sources[0], RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
                 creep.moveTo(sources[0]);
                 return 1;
             } else {
