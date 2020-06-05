@@ -8,7 +8,11 @@ var towerModule = require("towerModule");
 module.exports.loop = function () {
 
     console.log('\n');
-    const BODYPARTS = [WORK, WORK, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE];
+    const BODYPARTS = [
+        WORK, WORK, WORK, WORK,
+        CARRY, CARRY, CARRY, CARRY,
+        MOVE, MOVE, MOVE, MOVE, MOVE, MOVE
+    ];
 
     
     for(var name in Memory.creeps) {
@@ -58,21 +62,21 @@ module.exports.loop = function () {
     if(builders.length < totalRoleCreeps*2) {
         var newName = 'Builder' + Game.time;
         console.log('Trying to spawn new Builder: ' + newName);
-        Game.spawns['Spawn1'].spawnCreep([WORK, WORK, CARRY, CARRY, MOVE, MOVE], newName,
+        Game.spawns['Spawn1'].spawnCreep(BODYPARTS, newName,
             {memory: {role: 'builder'}});
 }
 
     if(upgraders.length < totalRoleCreeps*2) {
         var newName = 'Upgrader' + Game.time;
         console.log('Trying to spawn new Upgrader: ' + newName);
-        Game.spawns['Spawn1'].spawnCreep([WORK, WORK, CARRY, CARRY, MOVE, MOVE], newName,
+        Game.spawns['Spawn1'].spawnCreep(BODYPARTS, newName,
             {memory: {role: 'upgrader'}});
     }
 
     if(harvesters.length < totalRoleCreeps*2) {
         var newName = 'Harvester' + Game.time;
         console.log('Trying to spawn new Harvester: ' + newName);
-        Game.spawns['Spawn1'].spawnCreep([WORK, WORK, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE], newName,
+        Game.spawns['Spawn1'].spawnCreep(BODYPARTS, newName,
             {memory: {role: 'harvester'}});
     }
 
@@ -99,7 +103,7 @@ module.exports.loop = function () {
     console.log('Builder: ' + builders.length + "/" + totalRoleCreeps*2);
     console.log('Roadbuilder: ' + roadbuilders.length + "/" + totalRoleCreeps);
     console.log('Repairer: ' + repairer.length + "/" + totalRoleCreeps);
-
+    
     //main game loop
     //towers
     towerModule.ownAttackHostiles();

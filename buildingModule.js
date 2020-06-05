@@ -28,7 +28,7 @@ module.exports = {
     ownRepairing: function(creep) {
         var repairingTargets = creep.room.find(FIND_STRUCTURES, {
             filter: (structure) => {
-                return (structure.hits < structure.hitsMax);
+                return ((structure.structureType != STRUCTURE_WALL) && structure.hits < structure.hitsMax);
             }
         });
         if (repairingTargets.length) {

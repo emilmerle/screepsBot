@@ -20,7 +20,7 @@ var roleUpgrader = {
             buildingModule.ownUpgrading(creep);
         }
         else {
-            var harvestFinished = harvestModule.ownHarvestFromContainer(creep);
+            var harvestFinished = harvestModule.ownHarvest(creep, 1);
             if(harvestFinished != 1){
                 harvestFinished = harvestModule.ownHarvestFromContainer(creep);
             }

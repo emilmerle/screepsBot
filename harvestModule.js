@@ -43,6 +43,15 @@ module.exports = {
     },
 
     /**
+     * Function for a creep that should harvest energy from the source and drop it immediately
+     * @param {Object} creep creep that should harvest 
+     * @param {Number} sourceIndex index of source that should be harvested from
+     */
+    ownHarvestAndDrop: function(creep, sourceIndex){
+        var sources = creep.room.find(FIND_SOURCES);
+    },
+
+    /**
      * function for withdrawing energy from a container (e.g. if a source is empty)
      * 
      * @param {Object} creep creep that should withdraw from a container

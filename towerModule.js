@@ -11,7 +11,5 @@ module.exports = {
                 //console.log(tower[towers].pos);
             }
         }
-
-        
     }
 };
