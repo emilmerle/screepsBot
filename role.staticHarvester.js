@@ -4,7 +4,6 @@ var roleStaticHarvester = {
     run: function(creep) {
         //own modules
         var harvestModule = require("harvestModule");
-        var transferModule = require("transferModule");
 
         //determines which source the creep goes to
         var targetNumber = creep.name[creep.name.length-1];

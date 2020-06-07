@@ -23,12 +23,8 @@ var roleHarvester = {
                 creep.moveTo(Game.flags.CollectionPoint);
             }
         } else {
-            //trying to harvest energy from primary source
-            var harvestFinished = harvestModule.ownHarvest(creep, 0);
-            if(harvestFinished != 1){
-                //trying to withdrawn from container if energy source empty
-                harvestFinished = harvestModule.ownHarvestFromContainer(creep);
-            }
+            //trying to harvest energy from container or Storage
+            var harvestFinished = harvestModule.ownHarvestFromContainer(creep);
             if(harvestFinished != 1){
                 //moving to CollectionPoint if nothing to do
                 creep.moveTo(Game.flags.CollectionPoint);

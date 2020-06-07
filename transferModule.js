@@ -16,7 +16,7 @@ module.exports = {
             }
         });
 
-        //if the spawn and extensions are at max energy it filters the containers and tower in the room
+        //if the spawn and extensions are at max energy it filters tower in the room
         if (targets.length == 0) {
             targets = creep.room.find(FIND_STRUCTURES, {
                 filter: (structure) => {
@@ -25,16 +25,16 @@ module.exports = {
                 }
             });
         }
-
+        //if the spawn and extensions and the towers are at max energy it filters the storage in the room
         if (targets.length == 0) {
             targets = creep.room.find(FIND_STRUCTURES, {
                 filter: (structure) => {
-                    return (structure.structureType === STRUCTURE_CONTAINER || structure.structureType === STRUCTURE_STORAGE)
+                    return (structure.structureType === STRUCTURE_STORAGE)
                         && structure.store.getFreeCapacity(RESOURCE_ENERGY) > 0;
                 }
             });
         }
-
+        //transfering the energy to the targets
         if (targets.length) {
             if (creep.transfer(targets[0], RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
                 creep.moveTo(targets[0]);
