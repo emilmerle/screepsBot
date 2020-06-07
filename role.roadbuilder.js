@@ -6,6 +6,7 @@ var roleRoadbuilder = {
         //own harvest function
         var harvestModule = require("harvestModule");
         var buildingModule = require("buildingModule");
+        var transferModule = require("transferModule");
 
         if(creep.memory.building && creep.store[RESOURCE_ENERGY] === 0) {
             creep.memory.building = false;
@@ -17,16 +18,11 @@ var roleRoadbuilder = {
         }
 
         if(creep.memory.building) {
-            var targets = creep.room.find(FIND_CONSTRUCTION_SITES, {
-                filter: (structure) => {
-                    return (structure.structureType === STRUCTURE_ROAD);
-                }
-            });
-            if (targets.length) {
-                if (creep.build(targets[0]) === ERR_NOT_IN_RANGE) {
-                    creep.moveTo(targets[0]);
-                }
-            } else {
+            var buildingFinished = buildingModule.ownRoadBuilding(creep);
+            if(buildingFinished != 1){
+                buildingFinished = transferModule.ownTransfering(creep);
+            }
+            if(buildingFinished != 1) {
                 creep.moveTo(Game.flags.CollectionPoint);
             }
         }

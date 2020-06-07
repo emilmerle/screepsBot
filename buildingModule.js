@@ -19,6 +19,25 @@ module.exports = {
         }
     },
 
+    ownRoadBuilding: function(creep){
+        var targets = creep.room.find(FIND_CONSTRUCTION_SITES, {
+            filter: (structure) => {
+                return (structure.structureType != STRUCTURE_ROAD);
+            }
+        });
+        if (targets.length) {
+            if (creep.build(targets[0]) === ERR_NOT_IN_RANGE) {
+                creep.moveTo(targets[0]);
+                return 1;
+            } else {
+                return 1;
+            }
+        } else {
+            return -1;
+        }
+    },
+
+
     /**
      * repairing function to repair structures that have less than max Hits in the room it is in
      * 
