@@ -41,10 +41,19 @@ module.exports = {
         //finding containers in the room
         var source = creep.pos.findClosestByRange(FIND_STRUCTURES, {
             filter: (structure) => {
-                return (structure.structureType === STRUCTURE_CONTAINER || structure.structureType === STRUCTURE_STORAGE)
+                return (structure.structureType === STRUCTURE_CONTAINER)
                     && structure.store.getUsedCapacity() > creep.store.getCapacity();
             }
         });
+
+        if((source == null) || (source == undefined)){
+            source = creep.pos.findClosestByRange(FIND_STRUCTURES, {
+                filter: (structure) => {
+                    return (structure.structureType === STRUCTURE_STORAGE)
+                        && structure.store.getUsedCapacity() > creep.store.getCapacity();
+                }
+            });
+        }
 
         if (source) {
             if(creep.withdraw(source, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {

@@ -139,6 +139,7 @@ module.exports.loop = function () {
         if(creep.memory.role === 'repairer') {
             roleRepairer.run(creep);
         }
+        //remove harvester later
         if(creep.memory.role === 'harvester' || creep.memory.role === "carrier") {
             roleCarrier.run(creep);
         }
