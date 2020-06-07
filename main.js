@@ -93,18 +93,11 @@ module.exports.loop = function () {
     }
 
     if(staticHarvester.length < 2){
-        var newName;
-        if(staticHarvester.length === 0){
-            newName = "StaticHarvester" + 0;
-            console.log("Trying to spawn StaticHarvester0");
-            Game.spawns["Spawn1"].spawnCreep(BPHARVESTER, newName,
-                {memory: {role: "staticHarvester"}});
-        }
-        else if(staticHarvester.length === 1){
+        var newName = "StaticHarvester" + 0;
+        console.log("Trying to spawn StaticHarvester");
+        if(Game.spawns["Spawn1"].spawnCreep(BPHARVESTER, newName, {memory: {role: "staticHarvester"}}) === ERR_NAME_EXISTS){
             newName = "StaticHarvester" + 1;
-            console.log("Trying to spawn StaticHarvester1");
-            Game.spawns["Spawn1"].spawnCreep(BPHARVESTER, newName,
-                {memory: {role: "staticHarvester"}});
+            Game.spawns["Spawn1"].spawnCreep(BPHARVESTER, newName, {memory: {role: "staticHarvester"}});
         }
     }
 
