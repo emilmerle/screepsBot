@@ -27,18 +27,7 @@ module.exports = {
                 return 1;
             }
         } else {
-            //only when there is no source with energy in the room
-            sources = creep.room.find(FIND_DROPPED_RESOURCES);
-            if(sources.length){
-                if(creep.pickup(sources[0]) === ERR_NOT_IN_RANGE) {
-                    creep.moveTo(sources[0]);
-                    return 1;
-                } else {
-                    return 1;
-                }
-            } else {
-                return -1;
-            }
+            return -1;
         }
     },
 
