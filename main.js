@@ -11,9 +11,9 @@ module.exports.loop = function () {
     console.log('\n');
 
     const BPGENERAL = [
-        WORK, WORK, WORK, WORK,
-        CARRY, CARRY, CARRY, CARRY,
-        MOVE, MOVE, MOVE, MOVE, MOVE, MOVE
+        WORK, WORK, WORK, WORK, WORK,
+        CARRY, CARRY, CARRY, CARRY, CARRY,
+        MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE
     ];
 
     const BPHARVESTER = [
@@ -60,7 +60,7 @@ module.exports.loop = function () {
     if(repairer.length < totalRoleCreeps) {
         var newName = 'Repairer' + Game.time;
         console.log('Trying to spawn new Repairer: ' + newName);
-        Game.spawns['Spawn1'].spawnCreep([WORK, CARRY, MOVE, MOVE], newName,
+        Game.spawns['Spawn1'].spawnCreep([WORK, WORK, CARRY, CARRY, MOVE, MOVE], newName,
             {memory: {role: 'repairer'}});
     }
 

@@ -29,6 +29,9 @@ var roleRoadbuilder = {
         else {
             var harvestFinished = harvestModule.ownHarvestFromContainer(creep);
             if(harvestFinished != 1){
+                harvestFinished = harvestFinished.ownHarvestFromStorage(creep);
+            }
+            if(harvestFinished != 1){
                 creep.moveTo(Game.flags.CollectionPoint);
             }
         }

@@ -47,9 +47,17 @@ module.exports = {
     ownRepairing: function(creep) {
         var repairingTargets = creep.room.find(FIND_STRUCTURES, {
             filter: (structure) => {
-                return ((structure.structureType != STRUCTURE_WALL) && structure.hits < structure.hitsMax);
+                return ((structure.structureType != STRUCTURE_WALL && structure.structureType != STRUCTURE_ROAD) && structure.hits < structure.hitsMax);
             }
         });
+        
+        if(repairingTargets.length == 0){
+            repairingTargets = creep.room.find(FIND_STRUCTURES, {
+            filter: (structure) => {
+                return ((structure.structureType != STRUCTURE_WALL) && structure.hits < structure.hitsMax);
+            }
+            });
+        }
         if (repairingTargets.length) {
             if (creep.repair(repairingTargets[0]) === ERR_NOT_IN_RANGE) {
                 creep.moveTo(repairingTargets[0]);

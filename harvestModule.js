@@ -46,16 +46,34 @@ module.exports = {
             }
         });
 
-        if((source == null) || (source == undefined)){
-            source = creep.pos.findClosestByRange(FIND_STRUCTURES, {
-                filter: (structure) => {
-                    return (structure.structureType === STRUCTURE_STORAGE)
-                        && structure.store.getUsedCapacity() > creep.store.getCapacity();
-                }
-            });
-        }
-
         if (source) {
+            if(creep.withdraw(source, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
+                creep.moveTo(source);
+                return 1;
+            } else {
+                return 1;
+            }
+        } else {
+            return -1;
+        }
+    },
+    
+    /**
+     * function for withdrawing energy from a storage (e.g. if a source is empty)
+     * 
+     * @param {Object} creep creep that should withdraw from a storage
+     * @returns {Number} 1 if successfully withdrawn, -1 else
+     */
+    ownHarvestFromStorage: function(creep){
+        //finding storage in the room
+        var source = creep.pos.findClosestByRange(FIND_STRUCTURES, {
+            filter: (structure) => {
+                return (structure.structureType === STRUCTURE_STORAGE)
+                    && structure.store.getUsedCapacity() > creep.store.getCapacity();
+            }
+        });
+
+        if(source) {
             if(creep.withdraw(source, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
                 creep.moveTo(source);
                 return 1;
