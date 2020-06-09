@@ -4,6 +4,7 @@ var roleBuilder = require('role.builder');
 var roleRoadbuilder = require("role.roadbuilder");
 var roleRepairer = require("role.repairer");
 var roleStaticHarvester = require("role.staticHarvester");
+var roleExtractor = require("role.extractor");
 var towerModule = require("towerModule");
 
 module.exports.loop = function () {
@@ -44,7 +45,9 @@ module.exports.loop = function () {
 
     var carrier = _.filter(Game.creeps, (creep) => creep.memory.role === 'carrier');
 
-    var staticHarvester = _.filter(Game.creeps, (creep) => creep.memory.role === "staticHarvester")
+    var staticHarvester = _.filter(Game.creeps, (creep) => creep.memory.role === "staticHarvester");
+
+    var extractor = _.filter(Game.creeps, (creep) => creep.memory.role === "extractor");
 
 
     //variable for how many creeps there will be in total (not accurate)
@@ -78,7 +81,7 @@ module.exports.loop = function () {
             {memory: {role: 'builder'}});
 }
 
-    if(upgrader.length < totalRoleCreeps*2) {
+    if(upgrader.length < totalRoleCreeps) {
         var newName = 'Upgrader' + Game.time;
         console.log('Trying to spawn new Upgrader: ' + newName);
         Game.spawns['Spawn1'].spawnCreep(BPGENERAL, newName,
@@ -101,6 +104,13 @@ module.exports.loop = function () {
         }
     }
 
+    if(extractor.length < 1) {
+        var newName = 'Extractor' + Game.time;
+        console.log('Trying to spawn new Extractor: ' + newName);
+        Game.spawns['Spawn1'].spawnCreep(BPGENERAL, newName,
+            {memory: {role: 'extractor'}});
+    }
+
     //console log if a new creep spawns
     if(Game.spawns['Spawn1'].spawning) { 
         var spawningCreep = Game.creeps[Game.spawns['Spawn1'].spawning.name];
@@ -120,11 +130,12 @@ module.exports.loop = function () {
 
 
     console.log('Carrier: ' + carrier.length + "/" + totalRoleCreeps*2);
-    console.log('Upgrader: ' + upgrader.length + "/" + totalRoleCreeps*2);
+    console.log('Upgrader: ' + upgrader.length + "/" + totalRoleCreeps);
     console.log('Builder: ' + builder.length + "/" + totalRoleCreeps);
     console.log('Roadbuilder: ' + roadbuilder.length + "/" + totalRoleCreeps);
     console.log('Repairer: ' + repairer.length + "/" + totalRoleCreeps);
     console.log("StaticHarvester: " + staticHarvester.length + "/2");
+    console.log("Extractor: " + extractor.length + "/1");
     
     //main game loop
     //towers
@@ -150,6 +161,9 @@ module.exports.loop = function () {
         }
         if(creep.memory.role === "staticHarvester"){
             roleStaticHarvester.run(creep);
+        }
+        if(creep.memory.role === "extractor"){
+            roleExtractor.run(creep);
         }
     }
 }

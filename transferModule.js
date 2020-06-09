@@ -45,5 +45,32 @@ module.exports = {
         } else {
             return -1;
         }
+    },
+
+    /**
+     * function for transfering minerals into the storage on the roo m the creep is in
+     * 
+     * @param {Object} creep creep that should transfer minerals
+     * @param {String} mineral One of the RESOURCE_* constants
+     * @returns {Number} 1 if transfering successfull, -1 else
+     */
+    ownMineralTransfering: function(creep, mineral){
+        var targets = creep.room.find(FIND_STRUCTURES, {
+            filter: (structure) => {
+                return (structure.structureType === STRUCTURE_STORAGE)
+                    && structure.store.getFreeCapacity(RESOURCE_ENERGY) > 0;
+            }
+        });
+
+        if(targets.length){
+            if (creep.transfer(targets[0], mineral) === ERR_NOT_IN_RANGE) {
+                creep.moveTo(targets[0]);
+                return 1;
+            } else {
+                return 1;
+            }
+        } else {
+            return -1;
+        }
     }
 };

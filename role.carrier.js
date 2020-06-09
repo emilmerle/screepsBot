@@ -11,7 +11,7 @@ var roleHarvester = {
             creep.memory.working = false;
             creep.say('🔄 harvest');
 	    }
-	    	if(!creep.memory.working && creep.store.getFreeCapacity() === 0) {
+	    if(!creep.memory.working && creep.store.getFreeCapacity() === 0) {
 	        creep.memory.working = true;
 	        creep.say('transfering');
 	    }
