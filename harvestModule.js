@@ -57,7 +57,7 @@ module.exports = {
             return -1;
         }
     },
-    
+
     /**
      * function for withdrawing energy from a storage (e.g. if a source is empty)
      * 
@@ -94,6 +94,27 @@ module.exports = {
         var source = creep.pos.findClosestByRange(FIND_DROPPED_RESOURCES);
         if(source) {
             if(creep.pickup(source) == ERR_NOT_IN_RANGE) {
+                creep.moveTo(source);
+                return 1;
+            } else {
+                return 1;
+            }
+        } else {
+            return -1;
+        }
+    },
+
+    /**
+     * function for harvesting a mineral,
+     * needs an extractor at the mineral source
+     * 
+     * @param {Object} creep creep that should harvest a mineral
+     * @returns {Number} 1 if successfully harvested, -1 else
+     */
+    ownExtract: function(creep){
+        var source = creep.pos.findClosestByRange(FIND_MINERALS);
+        if(source) {
+            if(creep.harvest(source) == ERR_NOT_IN_RANGE) {
                 creep.moveTo(source);
                 return 1;
             } else {

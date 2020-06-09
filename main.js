@@ -71,7 +71,7 @@ module.exports.loop = function () {
             {memory: {role: 'roadbuilder'}});
     }
 
-    if(builder.length < totalRoleCreeps*2) {
+    if(builder.length < totalRoleCreeps) {
         var newName = 'Builder' + Game.time;
         console.log('Trying to spawn new Builder: ' + newName);
         Game.spawns['Spawn1'].spawnCreep(BPGENERAL, newName,
@@ -121,7 +121,7 @@ module.exports.loop = function () {
 
     console.log('Carrier: ' + carrier.length + "/" + totalRoleCreeps*2);
     console.log('Upgrader: ' + upgrader.length + "/" + totalRoleCreeps*2);
-    console.log('Builder: ' + builder.length + "/" + totalRoleCreeps*2);
+    console.log('Builder: ' + builder.length + "/" + totalRoleCreeps);
     console.log('Roadbuilder: ' + roadbuilder.length + "/" + totalRoleCreeps);
     console.log('Repairer: ' + repairer.length + "/" + totalRoleCreeps);
     console.log("StaticHarvester: " + staticHarvester.length + "/2");
@@ -136,7 +136,6 @@ module.exports.loop = function () {
         if(creep.memory.role === 'repairer') {
             roleRepairer.run(creep);
         }
-        //remove harvester later
         if(creep.memory.role === "carrier") {
             roleCarrier.run(creep);
         }

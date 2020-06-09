@@ -29,6 +29,9 @@ var roleHarvester = {
                 harvestFinished = harvestModule.ownHarvestFromContainer(creep);
             }
             if(harvestFinished != 1){
+                harvestFinished = harvestModule.ownHarvestFromStorage(creep);
+            }
+            if(harvestFinished != 1){
                 //moving to CollectionPoint if nothing to do
                 creep.moveTo(Game.flags.CollectionPoint);
             }
