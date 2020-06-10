@@ -90,8 +90,12 @@ module.exports = {
      * @param {Object} creep Creep that should find dropped resources
      * @returns {Number} 1 if found dropped resources, -1 else
      */
-    ownFindDropped: function(creep){
-        var source = creep.pos.findClosestByRange(FIND_DROPPED_RESOURCES);
+    ownFindDroppedEnergy: function(creep){
+        var source = creep.pos.findClosestByRange(FIND_DROPPED_RESOURCES, {
+            filter: (resource) => {
+                return (resource.resourceType === RESOURCE_ENERGY);
+            }
+        });
         if(source) {
             if(creep.pickup(source) == ERR_NOT_IN_RANGE) {
                 creep.moveTo(source);

@@ -54,7 +54,7 @@ module.exports = {
      * @param {String} mineral One of the RESOURCE_* constants
      * @returns {Number} 1 if transfering successfull, -1 else
      */
-    ownMineralTransfering: function(creep, mineral){
+    ownMineralTransfering: function(creep){
         var targets = creep.room.find(FIND_STRUCTURES, {
             filter: (structure) => {
                 return (structure.structureType === STRUCTURE_STORAGE)
@@ -63,12 +63,19 @@ module.exports = {
         });
 
         if(targets.length){
-            var ret = creep.transfer(targets[0], mineral);
+            var ret;
+            for(const resourceType in creep.carry) {
+                //console.log(resourceType)
+                if(resourceType != RESOURCE_ENERGY){
+                    ret = creep.transfer(targets[0], resourceType);
+                    console.log(resourceType);
+                } else {
+                    continue;
+                }
+            }
             if (ret === ERR_NOT_IN_RANGE) {
                 creep.moveTo(targets[0]);
                 return 1;
-            } else if(ret === ERR_NOT_ENOUGH_RESOURCES){
-                return -1;
             } else {
                 return 1;
             }
