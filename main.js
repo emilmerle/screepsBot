@@ -5,6 +5,7 @@ var roleRoadbuilder = require("role.roadbuilder");
 var roleRepairer = require("role.repairer");
 var roleStaticHarvester = require("role.staticHarvester");
 var roleExtractor = require("role.extractor");
+var roleFighter = require("role.fighter");
 var towerModule = require("towerModule");
 
 module.exports.loop = function () {
@@ -26,6 +27,12 @@ module.exports.loop = function () {
         CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, 
         MOVE, MOVE, MOVE, MOVE, MOVE, MOVE
     ];
+
+    const BPFIGHTER = [
+        MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE,
+        ATTACK, ATTACK, ATTACK, ATTACK, ATTACK, 
+        TOUGH, TOUGH, TOUGH, TOUGH, TOUGH
+    ]
     
     for(var name in Memory.creeps) {
         if(!Game.creeps[name]) {
@@ -49,6 +56,8 @@ module.exports.loop = function () {
 
     var extractor = _.filter(Game.creeps, (creep) => creep.memory.role === "extractor");
 
+    var fighter = _.filter(Game.creeps, (creep) => creep.memory.role === "fighter");
+
 
     //variable for how many creeps there will be in total (not accurate)
     var totalCreeps = repairer.length + roadbuilder.length + builder.length + upgrader.length + carrier.length;
@@ -67,7 +76,7 @@ module.exports.loop = function () {
             {memory: {role: 'repairer'}});
     }
 
-    if(roadbuilder.length < totalRoleCreeps) {
+    if(roadbuilder.length < 1) {
         var newName = 'Roadbuilder' + Game.time;
         console.log('Trying to spawn new Roadbuilder: ' + newName);
         Game.spawns['Spawn1'].spawnCreep([WORK, WORK, CARRY, CARRY, MOVE, MOVE], newName,
@@ -111,6 +120,13 @@ module.exports.loop = function () {
             {memory: {role: 'extractor'}});
     }
 
+    if(fighter.length < 1) {
+        var newName = 'Fighter' + Game.time;
+        console.log('Trying to spawn new Fighter: ' + newName);
+        Game.spawns['Spawn1'].spawnCreep(BPFIGHTER, newName,
+            {memory: {role: 'fighter'}});
+    }
+
     //console log if a new creep spawns
     if(Game.spawns['Spawn1'].spawning) { 
         var spawningCreep = Game.creeps[Game.spawns['Spawn1'].spawning.name];
@@ -132,14 +148,16 @@ module.exports.loop = function () {
     console.log('Carrier: ' + carrier.length + "/" + totalRoleCreeps*2);
     console.log('Upgrader: ' + upgrader.length + "/" + totalRoleCreeps*2);
     console.log('Builder: ' + builder.length + "/" + totalRoleCreeps);
-    console.log('Roadbuilder: ' + roadbuilder.length + "/" + totalRoleCreeps);
+    console.log('Roadbuilder: ' + roadbuilder.length + "/1");
     console.log('Repairer: ' + repairer.length + "/" + totalRoleCreeps);
     console.log("StaticHarvester: " + staticHarvester.length + "/2");
     console.log("Extractor: " + extractor.length + "/1");
+    console.log("Fighter:" + fighter.length + "/1");
     
     //main game loop
     //towers
     towerModule.ownAttackHostiles();
+    towerModule.ownHealAllies();
 
     //creeps
     for(var name in Game.creeps) {
@@ -164,6 +182,9 @@ module.exports.loop = function () {
         }
         if(creep.memory.role === "extractor"){
             roleExtractor.run(creep);
+        }
+        if(creep.memory.role === "fighter"){
+            roleFighter.run(creep);
         }
     }
 }
