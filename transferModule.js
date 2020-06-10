@@ -63,9 +63,12 @@ module.exports = {
         });
 
         if(targets.length){
-            if (creep.transfer(targets[0], mineral) === ERR_NOT_IN_RANGE) {
+            var ret = creep.transfer(targets[0], mineral);
+            if (ret === ERR_NOT_IN_RANGE) {
                 creep.moveTo(targets[0]);
                 return 1;
+            } else if(ret === ERR_NOT_ENOUGH_RESOURCES){
+                return -1;
             } else {
                 return 1;
             }

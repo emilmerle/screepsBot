@@ -18,7 +18,11 @@ var roleHarvester = {
 
         if(creep.memory.working) {
             //transfering stored energy to spawn or other structures
-            var transferingFinished = transferModule.ownTransfering(creep);
+            var transferingFinished = transferModule.ownMineralTransfering(creep, RESOURCE_KEANIUM);
+            //console.log(transferingFinished);
+            if(transferingFinished != 1){
+                transferingFinished = transferModule.ownTransfering(creep);
+            }
             if(transferingFinished != 1){
                 creep.moveTo(Game.flags.CollectionPoint);
             }
