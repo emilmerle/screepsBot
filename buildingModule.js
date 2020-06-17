@@ -22,7 +22,7 @@ module.exports = {
     ownRoadBuilding: function(creep){
         var targets = creep.room.find(FIND_CONSTRUCTION_SITES, {
             filter: (structure) => {
-                return (structure.structureType != STRUCTURE_ROAD);
+                return (structure.structureType == STRUCTURE_ROAD);
             }
         });
         if (targets.length) {

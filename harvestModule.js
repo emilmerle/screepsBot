@@ -96,6 +96,15 @@ module.exports = {
                 return (resource.resourceType === RESOURCE_ENERGY);
             }
         });
+        
+        if(source == null){
+            source = creep.pos.findClosestByRange(FIND_TOMBSTONES, {
+                filter: (structure) => {
+                    return (structure.store.getUsedCapacity(RESOURCE_ENERGY) > 0);
+                }
+            });
+        }
+        
         if(source) {
             if(creep.pickup(source) == ERR_NOT_IN_RANGE) {
                 creep.moveTo(source);
