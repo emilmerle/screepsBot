@@ -74,6 +74,7 @@ module.exports.loop = function () {
     var totalRoleCreeps = ((flooredRoleCreeps == 0) ? 1 : flooredRoleCreeps);
 
     //defines when and how many new creeps spawn
+    //repairer have lowest priority
     //should be in its own module
     if(repairer.length < totalRoleCreeps) {
         var newName = 'Repairer' + Game.time;

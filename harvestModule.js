@@ -143,7 +143,7 @@ module.exports = {
         });
         
         if(source) {
-            if(creep.withdraw(source) == ERR_NOT_IN_RANGE) {
+            if(creep.withdraw(source, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
                 creep.moveTo(source);
                 return 1;
             } else {
