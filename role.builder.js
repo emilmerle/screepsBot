@@ -28,7 +28,8 @@ var roleBuilder = {
 	    else {
 			var harvestFinished = harvestModule.ownFindDroppedEnergy(creep);
 			if(harvestFinished != 1){
-                harvestFinished = harvestModule.ownHarvestFromStorage(creep);
+				harvestFinished = harvestModule.ownHarvestFromStorage(creep);
+				//console.log(harvestFinished);
             }
             if(harvestFinished != 1){
                 creep.moveTo(Game.flags.CollectionPoint);

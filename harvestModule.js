@@ -42,7 +42,7 @@ module.exports = {
         var source = creep.pos.findClosestByRange(FIND_STRUCTURES, {
             filter: (structure) => {
                 return (structure.structureType === STRUCTURE_CONTAINER)
-                    && structure.store.getUsedCapacity() > creep.store.getCapacity();
+                    && structure.store.getUsedCapacity(RESOURCE_ENERGY) > creep.store.getCapacity();
             }
         });
 
@@ -69,7 +69,7 @@ module.exports = {
         var source = creep.pos.findClosestByRange(FIND_STRUCTURES, {
             filter: (structure) => {
                 return (structure.structureType === STRUCTURE_STORAGE)
-                    && structure.store.getUsedCapacity() > creep.store.getCapacity();
+                    && structure.store.getUsedCapacity(RESOURCE_ENERGY) > creep.store.getCapacity();
             }
         });
 

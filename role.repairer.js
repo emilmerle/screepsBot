@@ -23,7 +23,7 @@ var roleRepairer = {
 			}
 		}
 		else {
-			var harvestFinished = harvestModule.ownHarvestFromContainer(creep);
+			var harvestFinished = harvestModule.ownFindDroppedEnergy(creep);
 			if(harvestFinished != 1){
                 harvestFinished = harvestModule.ownHarvestFromStorage(creep);
             }
