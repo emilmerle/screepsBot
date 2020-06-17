@@ -28,7 +28,7 @@ var roleRoadbuilder = {
         }
         else {
             var harvestFinished = harvestModule.ownLootTombstones(creep);
-            console.log(harvestFinished);
+            //console.log(harvestFinished);
 			if(harvestFinished != 1){
                 harvestFinished = harvestModule.ownFindDroppedEnergy(creep);
             }

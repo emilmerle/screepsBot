@@ -7,10 +7,17 @@ var roleStaticHarvester = require("role.staticHarvester");
 var roleExtractor = require("role.extractor");
 var roleFighter = require("role.fighter");
 var towerModule = require("towerModule");
+var roleExplorer = require("role.explorer");
 
 module.exports.loop = function () {
 
     console.log('\n');
+
+    const BPNORMAL = [
+        WORK, WORK,
+        CARRY, CARRY,
+        MOVE, MOVE, MOVE, MOVE
+    ];
 
     const BPGENERAL = [
         WORK, WORK, WORK, WORK, WORK,
@@ -64,6 +71,8 @@ module.exports.loop = function () {
 
     var fighter = _.filter(Game.creeps, (creep) => creep.memory.role === "fighter");
 
+    var explorer = _.filter(Game.creeps, (creep) => creep.memory.role === "explorer");
+
 
     //variable for how many creeps there will be in total (not accurate)
     var totalCreeps = repairer.length + roadbuilder.length + builder.length + upgrader.length + carrier.length;
@@ -76,25 +85,40 @@ module.exports.loop = function () {
     //defines when and how many new creeps spawn
     //repairer have lowest priority
     //should be in its own module
-    if(repairer.length < totalRoleCreeps) {
-        var newName = 'Repairer' + Game.time;
-        console.log('Trying to spawn new Repairer: ' + newName);
-        Game.spawns['Spawn1'].spawnCreep([WORK, WORK, CARRY, CARRY, MOVE, MOVE], newName,
-            {memory: {role: 'repairer'}});
-    }
 
     if(roadbuilder.length < 1) {
         var newName = 'Roadbuilder' + Game.time;
         console.log('Trying to spawn new Roadbuilder: ' + newName);
-        Game.spawns['Spawn1'].spawnCreep([WORK, WORK, CARRY, CARRY, MOVE, MOVE], newName,
+        Game.spawns['Spawn1'].spawnCreep(BPNORMAL, newName,
             {memory: {role: 'roadbuilder'}});
     }
 
-    if(upgrader.length < totalRoleCreeps) {
-        var newName = 'Upgrader' + Game.time;
-        console.log('Trying to spawn new Upgrader: ' + newName);
+    if(extractor.length < 0) {
+        var newName = 'Extractor' + Game.time;
+        console.log('Trying to spawn new Extractor: ' + newName);
         Game.spawns['Spawn1'].spawnCreep(BPGENERAL, newName,
-            {memory: {role: 'upgrader'}});
+            {memory: {role: 'extractor'}});
+    }
+
+    if(fighter.length < 0) {
+        var newName = 'Fighter' + Game.time;
+        console.log('Trying to spawn new Fighter: ' + newName);
+        Game.spawns['Spawn1'].spawnCreep(BPFIGHTER, newName,
+            {memory: {role: 'fighter'}});
+    }
+
+    if(explorer.length < 0) {
+        var newName = 'Explorer' + Game.time;
+        console.log('Trying to spawn new Explorer: ' + newName);
+        Game.spawns['Spawn1'].spawnCreep(BPNORMAL, newName,
+            {memory: {role: 'explorer'}});
+    }
+
+    if(repairer.length < totalRoleCreeps) {
+        var newName = 'Repairer' + Game.time;
+        console.log('Trying to spawn new Repairer: ' + newName);
+        Game.spawns['Spawn1'].spawnCreep(BPNORMAL, newName,
+            {memory: {role: 'repairer'}});
     }
 
     if(builder.length < totalRoleCreeps*2) {
@@ -102,6 +126,13 @@ module.exports.loop = function () {
         console.log('Trying to spawn new Builder: ' + newName);
         Game.spawns['Spawn1'].spawnCreep(BPGENERAL, newName,
             {memory: {role: 'builder'}});
+    }    
+
+    if(upgrader.length < totalRoleCreeps) {
+        var newName = 'Upgrader' + Game.time;
+        console.log('Trying to spawn new Upgrader: ' + newName);
+        Game.spawns['Spawn1'].spawnCreep(BPGENERAL, newName,
+            {memory: {role: 'upgrader'}});
     }
 
     if(carrier.length < totalRoleCreeps*2) {
@@ -118,20 +149,6 @@ module.exports.loop = function () {
             newName = "StaticHarvester" + 1;
             Game.spawns["Spawn1"].spawnCreep(BPHARVESTER, newName, {memory: {role: "staticHarvester"}});
         }
-    }
-
-    if(extractor.length < 0) {
-        var newName = 'Extractor' + Game.time;
-        console.log('Trying to spawn new Extractor: ' + newName);
-        Game.spawns['Spawn1'].spawnCreep(BPGENERAL, newName,
-            {memory: {role: 'extractor'}});
-    }
-
-    if(fighter.length < 0) {
-        var newName = 'Fighter' + Game.time;
-        console.log('Trying to spawn new Fighter: ' + newName);
-        Game.spawns['Spawn1'].spawnCreep(BPFIGHTER, newName,
-            {memory: {role: 'fighter'}});
     }
 
     //console log if a new creep spawns
@@ -160,6 +177,7 @@ module.exports.loop = function () {
     console.log("StaticHarvester: " + staticHarvester.length + "/2");
     console.log("Extractor: " + extractor.length + "/1");
     console.log("Fighter:" + fighter.length + "/1");
+    console.log("Explorer: "+ explorer.length + "/1");
     
     //main game loop
     //towers
@@ -192,6 +210,9 @@ module.exports.loop = function () {
         }
         if(creep.memory.role === "fighter"){
             roleFighter.run(creep);
+        }
+        if(creep.memory.role === "explorer"){
+            roleExplorer.run(creep);
         }
     }
 }
