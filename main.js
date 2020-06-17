@@ -32,7 +32,13 @@ module.exports.loop = function () {
         MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE,
         ATTACK, ATTACK, ATTACK, ATTACK, ATTACK, 
         TOUGH, TOUGH, TOUGH, TOUGH, TOUGH
-    ]
+    ];
+
+    BPEMERGENCY = [
+        MOVE, MOVE,
+        WORK, WORK,
+        CARRY, CARRY
+    ];
     
     for(var name in Memory.creeps) {
         if(!Game.creeps[name]) {
@@ -83,18 +89,18 @@ module.exports.loop = function () {
             {memory: {role: 'roadbuilder'}});
     }
 
-    if(builder.length < totalRoleCreeps) {
-        var newName = 'Builder' + Game.time;
-        console.log('Trying to spawn new Builder: ' + newName);
-        Game.spawns['Spawn1'].spawnCreep(BPGENERAL, newName,
-            {memory: {role: 'builder'}});
-}
-
-    if(upgrader.length < totalRoleCreeps*2) {
+    if(upgrader.length < totalRoleCreeps) {
         var newName = 'Upgrader' + Game.time;
         console.log('Trying to spawn new Upgrader: ' + newName);
         Game.spawns['Spawn1'].spawnCreep(BPGENERAL, newName,
             {memory: {role: 'upgrader'}});
+    }
+
+    if(builder.length < totalRoleCreeps*2) {
+        var newName = 'Builder' + Game.time;
+        console.log('Trying to spawn new Builder: ' + newName);
+        Game.spawns['Spawn1'].spawnCreep(BPGENERAL, newName,
+            {memory: {role: 'builder'}});
     }
 
     if(carrier.length < totalRoleCreeps*2) {
@@ -113,14 +119,14 @@ module.exports.loop = function () {
         }
     }
 
-    if(extractor.length < 1) {
+    if(extractor.length < 0) {
         var newName = 'Extractor' + Game.time;
         console.log('Trying to spawn new Extractor: ' + newName);
         Game.spawns['Spawn1'].spawnCreep(BPGENERAL, newName,
             {memory: {role: 'extractor'}});
     }
 
-    if(fighter.length < 1) {
+    if(fighter.length < 0) {
         var newName = 'Fighter' + Game.time;
         console.log('Trying to spawn new Fighter: ' + newName);
         Game.spawns['Spawn1'].spawnCreep(BPFIGHTER, newName,
@@ -146,8 +152,8 @@ module.exports.loop = function () {
 
 
     console.log('Carrier: ' + carrier.length + "/" + totalRoleCreeps*2);
-    console.log('Upgrader: ' + upgrader.length + "/" + totalRoleCreeps*2);
-    console.log('Builder: ' + builder.length + "/" + totalRoleCreeps);
+    console.log('Upgrader: ' + upgrader.length + "/" + totalRoleCreeps);
+    console.log('Builder: ' + builder.length + "/" + totalRoleCreeps*2);
     console.log('Roadbuilder: ' + roadbuilder.length + "/1");
     console.log('Repairer: ' + repairer.length + "/" + totalRoleCreeps);
     console.log("StaticHarvester: " + staticHarvester.length + "/2");
