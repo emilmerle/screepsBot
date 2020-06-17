@@ -97,14 +97,6 @@ module.exports = {
             }
         });
         
-        if(source == null){
-            source = creep.pos.findClosestByRange(FIND_TOMBSTONES, {
-                filter: (structure) => {
-                    return (structure.store.getUsedCapacity(RESOURCE_ENERGY) > 0);
-                }
-            });
-        }
-        
         if(source) {
             if(creep.pickup(source) == ERR_NOT_IN_RANGE) {
                 creep.moveTo(source);
@@ -128,6 +120,30 @@ module.exports = {
         var source = creep.pos.findClosestByRange(FIND_MINERALS);
         if(source) {
             if(creep.harvest(source) == ERR_NOT_IN_RANGE) {
+                creep.moveTo(source);
+                return 1;
+            } else {
+                return 1;
+            }
+        } else {
+            return -1;
+        }
+    },
+
+    /**
+     * function for finding tombstones and withdraw the energy from it
+     * @param {Object} creep creep that should loot the tombstone
+     * @returns {Number} 1 if succesfull, -1 else
+     */
+    ownLootTombstones: function(creep) {
+        var source = creep.pos.findClosestByRange(FIND_TOMBSTONES, {
+            filter: (structure) => {
+                return (structure.store.getUsedCapacity(RESOURCE_ENERGY) > 0);
+            }
+        });
+        
+        if(source) {
+            if(creep.withdraw(source) == ERR_NOT_IN_RANGE) {
                 creep.moveTo(source);
                 return 1;
             } else {
