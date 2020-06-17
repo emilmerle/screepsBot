@@ -8,8 +8,6 @@ module.exports = {
      * @returns {Number} 1 if harvestable energy is found in the room, -1 else
      */
 
-        //TODO: calculate the source index automatically
-        //maybe: (creep.name[creep.name.length-1] % 2)
     ownHarvest: function(creep, targetNumber) {
         var source = creep.room.find(FIND_SOURCES);
         //adjusts the targetSource variable if the targetNumber was too high

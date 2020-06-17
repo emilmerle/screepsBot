@@ -46,6 +46,12 @@ module.exports.loop = function () {
         WORK, WORK,
         CARRY, CARRY
     ];
+
+    BPEXPLORER = [
+        MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE,
+        WORK, WORK, WORK, WORK,
+        CARRY, CARRY, CARRY, CARRY, CARRY, CARRY
+    ];
     
     for(var name in Memory.creeps) {
         if(!Game.creeps[name]) {
@@ -107,10 +113,10 @@ module.exports.loop = function () {
             {memory: {role: 'fighter'}});
     }
 
-    if(explorer.length < 0) {
+    if(explorer.length < 1) {
         var newName = 'Explorer' + Game.time;
         console.log('Trying to spawn new Explorer: ' + newName);
-        Game.spawns['Spawn1'].spawnCreep(BPNORMAL, newName,
+        Game.spawns['Spawn1'].spawnCreep(BPEXPLORER, newName,
             {memory: {role: 'explorer'}});
     }
 
@@ -161,13 +167,18 @@ module.exports.loop = function () {
             {align: 'left', opacity: 0.8});
     }
 
-    //Every tick:
+
+    var constructionSites = Game.constructionSites; //id as hashkeys
+    var myRooms = Game.rooms; //names as hash keys
+    var mySpawns = Game.spawns; //names as hash keys
 
     //console logs:
     
     //console.log("totalCreeps: " + totalCreeps);
     //console.log("totalRoleCreeps: " + totalRoleCreeps)
-
+    
+    //console.log(Game.map.findExit("W3S8", "W2S8"));
+    //console.log(Game.cpu.getUsed());
 
     console.log('Carrier: ' + carrier.length + "/" + totalRoleCreeps*2);
     console.log('Upgrader: ' + upgrader.length + "/" + totalRoleCreeps);
