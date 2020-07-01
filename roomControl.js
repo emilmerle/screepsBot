@@ -253,6 +253,10 @@ var roomControl = {
                 }
             }
         }
+
+        console.log(roomName + ": C:"+ carrier.length+ " SH:"+ staticHarvester.length+ " U:"+ upgrader.length+ " B:"+ builder.length);
+        console.log("\n");
+        
         /*
         console.log('Carrier: ' + carrier.length + "/3");
         console.log("StaticHarvester: " + staticHarvester.length + "/2");
