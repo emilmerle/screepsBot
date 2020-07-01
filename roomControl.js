@@ -1,3 +1,8 @@
+/**
+ * This is the module for controlling a room
+ * This involves the creeps and tower, as well as other structures
+ */
+
 var roomControl = {
     
     /** @param {Roomname} roomName **/
@@ -57,7 +62,6 @@ var roomControl = {
         var roleFighter = require("role.fighter");
         var towerModule = require("towerModule");
         var roleExplorer = require("role.explorer");
-        var roomControl = require("roomControl");
 
 //
 //  getting the object of the room to the given roomName
@@ -83,7 +87,8 @@ var roomControl = {
 
 
 //
-//  running main loop
+//  MAIN LOOP (IMPORTANT!!!)
+//
 
         //if theres a Spawn in the room
         if(hasSpawn) {
