@@ -10,6 +10,7 @@ module.exports.loop = function () {
     var myRooms = Game.rooms;
     for(var i in myRooms){
         roomControl.run(i);
+        console.log(i);
     }
     
     //Clearing memory of dead creeps
