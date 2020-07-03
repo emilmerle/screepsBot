@@ -57,6 +57,7 @@ var roomControl = {
 
 //
 //  own modules
+        var roomCalculations = require('roomCalculations'); 
         var roleCarrier = require('role.carrier');
         var roleUpgrader = require('role.upgrader');
         var roleBuilder = require('role.builder');
@@ -68,7 +69,6 @@ var roomControl = {
         var towerModule = require("towerModule");
         var roleExplorer = require("role.explorer");
         var roleClaimer = require("role.claimer");
-        //var roomCalculation = require("roomCalculations");
 
 //
 //  getting the object of the room to the given roomName
@@ -147,10 +147,10 @@ var roomControl = {
                     {memory: {role: 'builder'}});
             }
 
-            else if(repairer.length < 1) {
+            else if(repairer.length < 2) {
                 var newName = 'Repairer' + Game.time;
                 console.log('Trying to spawn new Repairer: ' + newName);
-                Game.spawns[thisSpawn.name].spawnCreep(BPGENERAL, newName,
+                Game.spawns[thisSpawn.name].spawnCreep(BPNORMAL, newName,
                     {memory: {role: 'repairer'}});
             }
 
@@ -266,6 +266,10 @@ var roomControl = {
             }
         }
 
+
+        if(Game.time % 10 == 0){
+            roomCalculations.pathSourcesSpawn(room);
+        }
         console.log(roomName + ": C:"+ carrier.length+ " SH:"+ staticHarvester.length+ " U:"+ upgrader.length+ " B:"+ builder.length+ " R:"+repairer.length+ " F:"+fighter.length);
         //console.log("\n");
         
