@@ -68,6 +68,7 @@ var roomControl = {
         var towerModule = require("towerModule");
         var roleExplorer = require("role.explorer");
         var roleClaimer = require("role.claimer");
+        //var roomCalculation = require("roomCalculations");
 
 //
 //  getting the object of the room to the given roomName
@@ -77,7 +78,18 @@ var roomControl = {
         var myCreeps = room.find(FIND_MY_CREEPS);
 //
 //  hasSpawn is true when theres a spawn in the room, false if not
-        var hasSpawn = (room.find(FIND_MY_SPAWNS).length > 0) ? true : false;
+        var hasSpawn = (room.find(FIND_MY_SPAWNS).length > 0);
+
+
+        if(!Memory[roomName]){
+            console.log("Eintragen");
+            Memory[roomName] = {};
+            Memory[roomName].name = roomName;
+            Memory[roomName].hasSpawn = hasSpawn;
+        } else {
+            //console.log(Memory[roomName].name);
+        }
+
 
 //
 //  filter creeps by role
@@ -138,7 +150,7 @@ var roomControl = {
             else if(repairer.length < 1) {
                 var newName = 'Repairer' + Game.time;
                 console.log('Trying to spawn new Repairer: ' + newName);
-                Game.spawns[thisSpawn.name].spawnCreep(BPNORMAL, newName,
+                Game.spawns[thisSpawn.name].spawnCreep(BPGENERAL, newName,
                     {memory: {role: 'repairer'}});
             }
 
@@ -254,8 +266,8 @@ var roomControl = {
             }
         }
 
-        console.log(roomName + ": C:"+ carrier.length+ " SH:"+ staticHarvester.length+ " U:"+ upgrader.length+ " B:"+ builder.length);
-        console.log("\n");
+        console.log(roomName + ": C:"+ carrier.length+ " SH:"+ staticHarvester.length+ " U:"+ upgrader.length+ " B:"+ builder.length+ " R:"+repairer.length+ " F:"+fighter.length);
+        //console.log("\n");
         
         /*
         console.log('Carrier: ' + carrier.length + "/3");
