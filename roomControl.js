@@ -173,7 +173,19 @@ var roomControl = {
                     Memory[roomName].spawnQueue.splice(index, 1);
                 }
             }
+            spawnQueueCounted = _.countBy(Memory[roomName].spawnQueue);
             //console.log(spawnQueueCounted["carrier"]);
+
+            var spawningNow = [-1, -1, -1];
+            for(var i = 0; i < thisSpawn.length; i++){
+                //console.log(thisSpawn[i].spawning);
+                if(thisSpawn[i].spawning != null){
+                    spawningNow[i] = thisSpawn[i].spawning.name;
+                } else {
+                    spawningNow[i] = -1;
+                }
+            }
+            console.log(spawningNow);
 
             // spawnQueueCounted = _.countBy(Memory[roomName].spawnQueue);
             // var index = Memory[roomName].spawnQueue.indexOf("carrier");
