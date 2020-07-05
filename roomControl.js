@@ -153,48 +153,48 @@ var roomControl = {
 
 
 
+// NOT FINISHED: 
 
+            // var spawnQueueCounted = _.countBy(Memory[roomName].spawnQueue);
 
-            var spawnQueueCounted = _.countBy(Memory[roomName].spawnQueue);
+            // if  ( (spawnQueueCounted["carrier"]+carrier.length < WANTEDCARRIER && spawnQueueCounted["carrier"] != undefined)
+            //     || (carrier.length < WANTEDCARRIER && spawnQueueCounted["carrier"] == undefined) ){
+            //     Memory[roomName].spawnQueue.push("carrier");
+            //     console.log("pushed carrier");
+            // }
 
-            if  ( (spawnQueueCounted["carrier"]+carrier.length < WANTEDCARRIER && spawnQueueCounted["carrier"] != undefined)
-                || (carrier.length < WANTEDCARRIER && spawnQueueCounted["carrier"] == undefined) ){
-                Memory[roomName].spawnQueue.push("carrier");
-                console.log("pushed carrier");
-            }
+            // spawnQueueCounted = _.countBy(Memory[roomName].spawnQueue);
 
-            spawnQueueCounted = _.countBy(Memory[roomName].spawnQueue);
+            // if(spawnQueueCounted["carrier"] > 0 && spawnQueueCounted["carrier"] != undefined){
+            //     var spawned = spawnControl.spawnRoleCreep(freeSpawn, "carrier", BPCARRIER);
+            //     console.log("Spawned one carrier: "+ spawned);
+            //     if(spawned == 0){
+            //         var index = Memory[roomName].spawnQueue.indexOf("carrier");
+            //         Memory[roomName].spawnQueue.splice(index, 1);
+            //     }
+            // }
+            // spawnQueueCounted = _.countBy(Memory[roomName].spawnQueue);
+            // //console.log(spawnQueueCounted["carrier"]);
 
-            if(spawnQueueCounted["carrier"] > 0 && spawnQueueCounted["carrier"] != undefined){
-                var spawned = spawnControl.spawnRoleCreep(freeSpawn, "carrier", BPCARRIER);
-                console.log("Spawned one carrier: "+ spawned);
-                if(spawned == 0){
-                    var index = Memory[roomName].spawnQueue.indexOf("carrier");
-                    Memory[roomName].spawnQueue.splice(index, 1);
-                }
-            }
-            spawnQueueCounted = _.countBy(Memory[roomName].spawnQueue);
-            //console.log(spawnQueueCounted["carrier"]);
-
-            var spawningNow = [-1, -1, -1];
-            for(var i = 0; i < thisSpawn.length; i++){
-                //console.log(thisSpawn[i].spawning);
-                if(thisSpawn[i].spawning != null){
-                    spawningNow[i] = thisSpawn[i].spawning.name;
-                } else {
-                    spawningNow[i] = -1;
-                }
-            }
-            console.log(spawningNow);
+            // var spawningNow = [-1, -1, -1];
+            // for(var i = 0; i < thisSpawn.length; i++){
+            //     //console.log(thisSpawn[i].spawning);
+            //     if(thisSpawn[i].spawning != null){
+            //         spawningNow[i] = thisSpawn[i].spawning.name;
+            //     } else {
+            //         spawningNow[i] = -1;
+            //     }
+            // }
+            // console.log(spawningNow);
 
             // spawnQueueCounted = _.countBy(Memory[roomName].spawnQueue);
             // var index = Memory[roomName].spawnQueue.indexOf("carrier");
             // Memory[roomName].spawnQueue.splice(index, 1);
             	
 
-            // if(carrier.length < 3) {
-            //     spawnControl.spawnRoleCreep(freeSpawn, "carrier", BPCARRIER);
-            // }
+            if(carrier.length < 3) {
+                spawnControl.spawnRoleCreep(freeSpawn, "carrier", BPCARRIER);
+            }
 
             if(staticHarvester.length < 2){
                 var newName = "StaticHarvester" + 0;
