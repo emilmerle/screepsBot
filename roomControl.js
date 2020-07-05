@@ -38,25 +38,39 @@ var roomControl = {
             TOUGH, TOUGH, TOUGH, TOUGH, TOUGH
         ];
     
-        BPEMERGENCY = [
+        const BPEMERGENCY = [
             MOVE, MOVE,
             WORK, WORK,
             CARRY, CARRY
         ];
     
-        BPCARRIEREMEGRENCY = [
+        const BPCARRIEREMEGRENCY = [
             CARRY, CARRY, CARRY,
             MOVE, MOVE, MOVE
         ];
 
-        BPCLAIMER = [
+        const BPCLAIMER = [
             CLAIM, 
             MOVE, MOVE
         ];
 
 
 //
+// constants for how many creeps per role there should be in a room
+        const WANTEDCARRIER = 3;
+        const WANTEDSTATICHARVESTER = 2;
+        const WANTEDUPGRADER = 3;
+        const WANTEDBUILDER = 3;
+        const WANTEDREPAIRER = 2;
+        const WANTEDROADBUILDER = 0;
+        const WANTEDEXTRACTOR = 0;
+        const WANTEDFIGHTER = 1;
+        const WANTEDEXPLORER = 0;
+        const WANTEDCLAIMER = 0;
+
+//
 //  own modules
+        var spawnControl = require("spawnControl");
         var roomCalculations = require('roomCalculations'); 
         var roleCarrier = require('role.carrier');
         var roleUpgrader = require('role.upgrader');
@@ -70,6 +84,7 @@ var roomControl = {
         var roleExplorer = require("role.explorer");
         var roleClaimer = require("role.claimer");
 
+
 //
 //  getting the object of the room to the given roomName
         var room = Game.rooms[roomName];
@@ -80,12 +95,14 @@ var roomControl = {
 //  hasSpawn is true when theres a spawn in the room, false if not
         var hasSpawn = (room.find(FIND_MY_SPAWNS).length > 0);
 
-
+//
+//initializing memory objects
         if(!Memory[roomName]){
             console.log("Eintragen");
             Memory[roomName] = {};
             Memory[roomName].name = roomName;
             Memory[roomName].hasSpawn = hasSpawn;
+            Memory[roomName].spawnQueue = [];
         } else {
             //console.log(Memory[roomName].name);
         }
@@ -107,85 +124,128 @@ var roomControl = {
 
 //
 //  MAIN LOOP (IMPORTANT!!!)
-//
 
-
-        
-        thisSpawn = room.find(FIND_MY_SPAWNS)[0];
-        
         //defines when and how many new creeps spawn
         //repairer have lowest priority
         //may be in its own module
         if(hasSpawn){
-            if(carrier.length < 3) {
-                var newName = 'Carrier' + Game.time;
-                console.log('Trying to spawn new Carrier: ' + newName);
-                Game.spawns[thisSpawn.name].spawnCreep(BPCARRIER, newName,
-                    {memory: {role: 'carrier'}});
+
+            //
+            // finds spawns that are available to spawn creeps
+            thisSpawn = room.find(FIND_MY_SPAWNS);
+            var freeSpawn = thisSpawn[0];
+
+            for(var j = 0; j < thisSpawn.length; j++){
+                if(thisSpawn[j].spawning == null){
+                    freeSpawn = thisSpawn[j];
+                }
             }
 
-            else if(staticHarvester.length < 2){
+
+
+
+            // if(Game.time % 1000 == 0){
+            //     var testSpawned = spawnControl.spawnRoleCreep(freeSpawn, "test", [MOVE]);
+            //     console.log(testSpawned + " " + Game.time);
+            // }
+
+
+
+
+
+
+
+            var spawnQueueCounted = _.countBy(Memory[roomName].spawnQueue);
+
+            if  ( (spawnQueueCounted["carrier"]+carrier.length < WANTEDCARRIER && spawnQueueCounted["carrier"] != undefined)
+                || (carrier.length < WANTEDCARRIER && spawnQueueCounted["carrier"] == undefined) ){
+                Memory[roomName].spawnQueue.push("carrier");
+                console.log("pushed carrier");
+            }
+
+            spawnQueueCounted = _.countBy(Memory[roomName].spawnQueue);
+
+            if(spawnQueueCounted["carrier"] > 0 && spawnQueueCounted["carrier"] != undefined){
+                var spawned = spawnControl.spawnRoleCreep(freeSpawn, "carrier", BPCARRIER);
+                console.log("Spawned one carrier: "+ spawned);
+                if(spawned == 0){
+                    var index = Memory[roomName].spawnQueue.indexOf("carrier");
+                    Memory[roomName].spawnQueue.splice(index, 1);
+                }
+            }
+            //console.log(spawnQueueCounted["carrier"]);
+
+            // spawnQueueCounted = _.countBy(Memory[roomName].spawnQueue);
+            // var index = Memory[roomName].spawnQueue.indexOf("carrier");
+            // Memory[roomName].spawnQueue.splice(index, 1);
+            	
+
+            // if(carrier.length < 3) {
+            //     spawnControl.spawnRoleCreep(freeSpawn, "carrier", BPCARRIER);
+            // }
+
+            if(staticHarvester.length < 2){
                 var newName = "StaticHarvester" + 0;
                 console.log("Trying to spawn StaticHarvester");
-                if(Game.spawns[thisSpawn.name].spawnCreep(BPHARVESTER, newName, {memory: {role: "staticHarvester"}}) === ERR_NAME_EXISTS){
+                if(Game.spawns[freeSpawn.name].spawnCreep(BPHARVESTER, newName, {memory: {role: "staticHarvester"}}) === ERR_NAME_EXISTS){
                     newName = "StaticHarvester" + 1;
-                    Game.spawns[thisSpawn.name].spawnCreep(BPHARVESTER, newName, {memory: {role: "staticHarvester"}});
+                    Game.spawns[freeSpawn.name].spawnCreep(BPHARVESTER, newName, {memory: {role: "staticHarvester"}});
                 }
             }
 
             else if(upgrader.length < 3) {
                 var newName = 'Upgrader' + Game.time;
                 console.log('Trying to spawn new Upgrader: ' + newName);
-                Game.spawns[thisSpawn.name].spawnCreep(BPGENERAL, newName,
+                Game.spawns[freeSpawn.name].spawnCreep(BPGENERAL, newName,
                     {memory: {role: 'upgrader'}});
             }
 
             else if(builder.length < 3) {
                 var newName = 'Builder' + Game.time;
                 console.log('Trying to spawn new Builder: ' + newName);
-                Game.spawns[thisSpawn.name].spawnCreep(BPGENERAL, newName,
+                Game.spawns[freeSpawn.name].spawnCreep(BPGENERAL, newName,
                     {memory: {role: 'builder'}});
             }
 
             else if(repairer.length < 2) {
                 var newName = 'Repairer' + Game.time;
                 console.log('Trying to spawn new Repairer: ' + newName);
-                Game.spawns[thisSpawn.name].spawnCreep(BPNORMAL, newName,
+                Game.spawns[freeSpawn.name].spawnCreep(BPNORMAL, newName,
                     {memory: {role: 'repairer'}});
             }
 
             else if(fighter.length < 1) {
                 var newName = 'Fighter' + Game.time;
                 console.log('Trying to spawn new Fighter: ' + newName);
-                Game.spawns[thisSpawn.name].spawnCreep(BPFIGHTER, newName,
+                Game.spawns[freeSpawn.name].spawnCreep(BPFIGHTER, newName,
                     {memory: {role: 'fighter'}});
             }
             
             else if(explorer.length < 0) {
                 var newName = 'Explorer' + Game.time;
                 console.log('Trying to spawn new Explorer: ' + newName);
-                Game.spawns[thisSpawn.name].spawnCreep(BPEXPLORER, newName,
+                Game.spawns[freeSpawn.name].spawnCreep(BPEXPLORER, newName,
                     {memory: {role: 'explorer'}});
             }
 
             else if(extractor.length < 0) {
                 var newName = 'Extractor' + Game.time;
                 console.log('Trying to spawn new Extractor: ' + newName);
-                Game.spawns[thisSpawn.name].spawnCreep(BPGENERAL, newName,
+                Game.spawns[freeSpawn.name].spawnCreep(BPGENERAL, newName,
                     {memory: {role: 'extractor'}});
             }
 
             else if(roadbuilder.length < 0) {
                 var newName = 'Roadbuilder' + Game.time;
                 console.log('Trying to spawn new Roadbuilder: ' + newName);
-                Game.spawns[thisSpawn.name].spawnCreep(BPNORMAL, newName,
+                Game.spawns[freeSpawn.name].spawnCreep(BPNORMAL, newName,
                     {memory: {role: 'roadbuilder'}});
             }
 
             else if(claimer.length < 0) {
                 var newName = 'Claimer' + Game.time;
                 console.log('Trying to spawn new Claimer: ' + newName);
-                Game.spawns[thisSpawn.name].spawnCreep(BPCLAIMER, newName,
+                Game.spawns[freeSpawn.name].spawnCreep(BPCLAIMER, newName,
                     {memory: {role: 'claimer'}});
             }
 
@@ -267,9 +327,9 @@ var roomControl = {
         }
 
 
-        if(Game.time % 10 == 0){
-            roomCalculations.pathSourcesSpawn(room);
-        }
+        // if(Game.time % 10 == 0){
+        //     roomCalculations.pathSourcesSpawn(room);
+        // }
         console.log(roomName + ": C:"+ carrier.length+ " SH:"+ staticHarvester.length+ " U:"+ upgrader.length+ " B:"+ builder.length+ " R:"+repairer.length+ " F:"+fighter.length);
         //console.log("\n");
         

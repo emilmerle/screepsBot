@@ -7,15 +7,23 @@ module.exports = {
      * @returns {Number}    1 if the creep succesfully transfers or moves to a structure, -1 else
      */
     ownTransfering: function(creep) {
-        //searches spawn and extensions that have less than max energy in the room the creep is in and stores them in targets[]
+        //searches spawns that have less than max energy in the room the creep is in and stores them in targets[]
         var targets = creep.room.find(FIND_STRUCTURES, {
             filter: (structure) => {
-                return (structure.structureType === STRUCTURE_EXTENSION ||
-                    structure.structureType === STRUCTURE_SPAWN)
+                return (structure.structureType === STRUCTURE_SPAWN)
                     && structure.store.getFreeCapacity(RESOURCE_ENERGY) > 0;
             }
         });
 
+        //if the spawns are at max energy
+        if (targets.length == 0) {
+            targets = creep.room.find(FIND_STRUCTURES, {
+                filter: (structure) => {
+                    return (structure.structureType === STRUCTURE_EXTENSION)
+                        && structure.store.getFreeCapacity(RESOURCE_ENERGY) > 0;
+                }
+            });
+        }
         //if the spawn and extensions are at max energy it filters tower in the room
         if (targets.length == 0) {
             targets = creep.room.find(FIND_STRUCTURES, {

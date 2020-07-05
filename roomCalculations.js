@@ -1,3 +1,5 @@
+const roomControl = require("./roomControl");
+
 module.exports = {
 
     checkForSpawn: function(room){ 
@@ -19,24 +21,14 @@ module.exports = {
             }
         });
 
-        var sources = room.find(FIND_SOURCES);
-        var start = sources[0];
-        var goals = [];
-        goals[0] = spawn;
-        sources.shift();
-        while(sources.length > 0){
-            console.log("more than one: " + sources[0]);
-            goals.push(sources[0]);
-            sources.shift();
-            //console.log(goals[0]);
-            //console.log(goals[1]);
-        }
-        console.log("Start: "+ start);
-        for(var i in goals){
-            //console.log(goals.length);
-            console.log(goals[i]);
-        }
-        var ret = PathFinder.search(start, goals);
-        console.log(ret);
+        let goals = _.map(room.find(FIND_SOURCES), function(source) {
+            // We can't actually walk on sources-- set `range` to 1 
+            // so we path next to it.
+            return { pos: source.pos, range: 1 };
+        });
+
+        //var ret = PathFinder.search(spawn, goals);
+        //console.log(ret);
+        //Memory[room.name].testPath = ret;
     },
 };
