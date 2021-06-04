@@ -1,3 +1,4 @@
+.gitignore
 **/.idea
 **/ScreepsAutocomplete-master
 **/forServer
