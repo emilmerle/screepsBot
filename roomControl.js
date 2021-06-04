@@ -59,8 +59,8 @@ var roomControl = {
 // constants for how many creeps per role there should be in a room
         const WANTEDCARRIER = 3;
         const WANTEDSTATICHARVESTER = 2;
-        const WANTEDUPGRADER = 3;
-        const WANTEDBUILDER = 3;
+        const WANTEDUPGRADER = 2;
+        const WANTEDBUILDER = 2;
         const WANTEDREPAIRER = 2;
         const WANTEDROADBUILDER = 0;
         const WANTEDEXTRACTOR = 0;
@@ -205,21 +205,21 @@ var roomControl = {
                 }
             }
 
-            else if(upgrader.length < 3) {
+            else if(upgrader.length < WANTEDUPGRADER) {
                 var newName = 'Upgrader' + Game.time;
                 console.log('Trying to spawn new Upgrader: ' + newName);
                 Game.spawns[freeSpawn.name].spawnCreep(BPGENERAL, newName,
                     {memory: {role: 'upgrader'}});
             }
 
-            else if(builder.length < 3) {
+            else if(builder.length < WANTEDBUILDER) {
                 var newName = 'Builder' + Game.time;
                 console.log('Trying to spawn new Builder: ' + newName);
                 Game.spawns[freeSpawn.name].spawnCreep(BPGENERAL, newName,
                     {memory: {role: 'builder'}});
             }
 
-            else if(repairer.length < 2) {
+            else if(repairer.length < 1) {
                 var newName = 'Repairer' + Game.time;
                 console.log('Trying to spawn new Repairer: ' + newName);
                 Game.spawns[freeSpawn.name].spawnCreep(BPNORMAL, newName,
