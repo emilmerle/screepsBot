@@ -1,41 +1,29 @@
 module.exports = {
 
     /**
-     * function to harvest energy from source in the room the creep is in
+     * function to harvest energy from a source in the room the creep is in
      * 
      * @param {Object} creep creep that should harvest energy
-     * @param {Number} targetNumber index of source the creep should go to
-     * @returns {Number} 1 if harvestable energy is found in the room, -1 else
      */
+    harvestAllSources: function(creep) {
+        var sources = creep.room.find(FIND_SOURCES);
 
-    ownHarvest: function(creep, targetNumber) {
-        var source = creep.room.find(FIND_SOURCES);
-        //adjusts the targetSource variable if the targetNumber was too high
-        var targetSource = (source.length-1 < targetNumber) ? source.length-1 : targetNumber;
-        //console.log(targetSource);
-        
-
-        if(source.length) {
-            if(creep.harvest(source[targetSource]) === ERR_NOT_IN_RANGE) {
-                creep.moveTo(source[targetSource]);
-                return 1;
-            } else if(creep.harvest(source[targetSource]) === ERR_NOT_ENOUGH_RESOURCES){
-                return -1;
-            } else {
-                return 1;
+        if(sources.length) {
+            // pick random source from all sources
+            var targetSource = Math.floor(Math.random() * sources.length)
+            if(creep.harvest(sources[targetSource]) === ERR_NOT_IN_RANGE) {
+                creep.moveTo(sources[targetSource]);
             }
-        } else {
-            return -1;
         }
     },
+
 
     /**
      * function for withdrawing energy from a container (e.g. if a source is empty)
      * 
      * @param {Object} creep creep that should withdraw from a container
-     * @returns {Number} 1 if successfully withdrawn, -1 else
      */
-    ownHarvestFromContainer: function(creep) {
+    harvestClosestContainer: function(creep) {
         //finding containers in the room
         var source = creep.pos.findClosestByRange(FIND_STRUCTURES, {
             filter: (structure) => {
@@ -47,22 +35,17 @@ module.exports = {
         if (source) {
             if(creep.withdraw(source, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
                 creep.moveTo(source);
-                return 1;
-            } else {
-                return 1;
             }
-        } else {
-            return -1;
         }
     },
+
 
     /**
      * function for withdrawing energy from a storage (e.g. if a source is empty)
      * 
      * @param {Object} creep creep that should withdraw from a storage
-     * @returns {Number} 1 if successfully withdrawn, -1 else
      */
-    ownHarvestFromStorage: function(creep){
+    harvestClosestStorage: function(creep){
         //finding storage in the room
         var source = creep.pos.findClosestByRange(FIND_STRUCTURES, {
             filter: (structure) => {
@@ -74,66 +57,53 @@ module.exports = {
         if(source) {
             if(creep.withdraw(source, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
                 creep.moveTo(source);
-                return 1;
-            } else {
-                return 1;
             }
-        } else {
-            return -1;
         }
     },
 
+
     /**
      * Function for finding dropped resources that the creep is in
+     * 
      * @param {Object} creep Creep that should find dropped resources
-     * @returns {Number} 1 if found dropped resources, -1 else
      */
-    ownFindDroppedEnergy: function(creep){
-        var source = creep.pos.findClosestByRange(FIND_DROPPED_RESOURCES, {
+    pickupClosestDroppedEnergy: function(creep){
+        var energy = creep.pos.findClosestByRange(FIND_DROPPED_RESOURCES, {
             filter: (resource) => {
                 return (resource.resourceType === RESOURCE_ENERGY);
             }
         });
         
-        if(source) {
-            if(creep.pickup(source) == ERR_NOT_IN_RANGE) {
-                creep.moveTo(source);
-                return 1;
-            } else {
-                return 1;
+        if(energy) {
+            if(creep.pickup(energy) === ERR_NOT_IN_RANGE) {
+                creep.moveTo(energy);
             }
-        } else {
-            return -1;
         }
     },
+
 
     /**
      * function for harvesting a mineral,
      * needs an extractor at the mineral source
      * 
      * @param {Object} creep creep that should harvest a mineral
-     * @returns {Number} 1 if successfully harvested, -1 else
      */
-    ownExtract: function(creep){
+    harvestClosestMineral: function(creep){
         var source = creep.pos.findClosestByRange(FIND_MINERALS);
         if(source) {
-            if(creep.harvest(source) == ERR_NOT_IN_RANGE) {
+            if(creep.harvest(source) === ERR_NOT_IN_RANGE) {
                 creep.moveTo(source);
-                return 1;
-            } else {
-                return 1;
             }
-        } else {
-            return -1;
         }
     },
 
+
     /**
      * function for finding tombstones and withdraw the energy from it
+     * 
      * @param {Object} creep creep that should loot the tombstone
-     * @returns {Number} 1 if succesfull, -1 else
      */
-    ownLootTombstones: function(creep) {
+    lootClosestTombstone: function(creep) {
         var source = creep.pos.findClosestByRange(FIND_TOMBSTONES, {
             filter: (structure) => {
                 return (structure.store.getUsedCapacity(RESOURCE_ENERGY) > 0);
@@ -141,14 +111,34 @@ module.exports = {
         });
         
         if(source) {
-            if(creep.withdraw(source, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+            if(creep.withdraw(source, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
                 creep.moveTo(source);
-                return 1;
-            } else {
-                return 1;
             }
-        } else {
-            return -1;
+        }
+    },
+
+    /**
+     * function for harvesting from a given source
+     * 
+     * @param {Object} creep creep that should harvest the source
+     * @param {Object} source source the creep should harvest
+     */
+    harvestSource: function(creep, source) {
+        if(creep.harvest(source, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+            creep.moveTo(source);
+        }
+    },
+
+
+    /**
+     * function for withdrawing from a given source
+     * 
+     * @param {Object} creep creep that should withdraw from the source
+     * @param {Object} source source the creep should withdraw from
+     */
+    withdrawSource: function(creep, source) {
+        if(creep.withdraw(source, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
+            creep.moveTo(source);
         }
     }
 };
