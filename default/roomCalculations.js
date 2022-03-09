@@ -1,5 +1,3 @@
-const roomControl = require("./roomControl");
-
 module.exports = {
 
     checkForSpawn: function(room){ 

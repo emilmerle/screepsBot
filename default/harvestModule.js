@@ -10,9 +10,10 @@ module.exports = {
 
         if(sources.length) {
             // pick random source from all sources
+            // not working because every tick an different source is picked
             var targetSource = Math.floor(Math.random() * sources.length)
-            if(creep.harvest(sources[targetSource]) === ERR_NOT_IN_RANGE) {
-                creep.moveTo(sources[targetSource]);
+            if(creep.harvest(sources[0]) === ERR_NOT_IN_RANGE) {
+                creep.moveTo(sources[0]);
             }
         }
     },

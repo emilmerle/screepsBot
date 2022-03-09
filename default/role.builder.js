@@ -1,12 +1,12 @@
+var harvestModule = require("harvestModule");
+var buildingModule = require("buildingModule");
+
 var roleBuilder = {
 
     /** @param {Creep} creep **/
     run: function(creep) {
 
-		//own harvest function
-		var harvestModule = require("harvestModule");
-		var buildingModule = require("buildingModule");
-
+		// switch between building and harvesting mode
 	    if(creep.memory.building && creep.store[RESOURCE_ENERGY] === 0) {
             creep.memory.building = false;
             creep.say('🔄 harvest');
@@ -16,24 +16,20 @@ var roleBuilder = {
 	        creep.say('🚧 build');
 	    }
 
+		// @TODO
+		// Some weird moving while building
 	    if(creep.memory.building) {
-			var buildingFinished = buildingModule.ownBuilding(creep);
-			if(buildingFinished != 1){
-                buildingFinished = buildingModule.ownRepairing(creep);
-            }
-            if(buildingFinished != 1){
-				buildingModule.ownUpgrading(creep);
-            }
+			// I dont know if that works or in which order it would be performed!
+			// best would be build, if not then repair and if not then upgrade
+			buildingModule.upgradeRoomController(creep);
+			buildingModule.repairAllStructures(creep);
+			buildingModule.buildAllContructionSites(creep);
 	    }
 	    else {
-			var harvestFinished = harvestModule.ownFindDroppedEnergy(creep);
-			if(harvestFinished != 1){
-				harvestFinished = harvestModule.ownHarvestFromStorage(creep);
-				//console.log(harvestFinished);
-            }
-            if(harvestFinished != 1){
-                creep.moveTo(Game.flags.CollectionPoint);
-            }
+			harvestModule.harvestAllSources(creep);
+			harvestModule.pickupClosestDroppedEnergy(creep);
+			harvestModule.harvestClosestStorage(creep);
+			creep.moveTo(Game.flags.CollectionPoint);
 	    }
 	}
 };
