@@ -9,11 +9,9 @@ var roleBuilder = {
 		// switch between building and harvesting mode
 	    if(creep.memory.building && creep.store[RESOURCE_ENERGY] === 0) {
             creep.memory.building = false;
-            creep.say('🔄 harvest');
 	    }
 	    	if(!creep.memory.building && creep.store.getFreeCapacity() === 0) {
 	        creep.memory.building = true;
-	        creep.say('🚧 build');
 	    }
 
 		// @TODO
@@ -24,12 +22,14 @@ var roleBuilder = {
 			buildingModule.upgradeRoomController(creep);
 			buildingModule.repairAllStructures(creep);
 			buildingModule.buildAllContructionSites(creep);
+            creep.say('🏗️');
 	    }
 	    else {
 			harvestModule.harvestAllSources(creep);
 			harvestModule.pickupClosestDroppedEnergy(creep);
 			harvestModule.harvestClosestStorage(creep);
 			creep.moveTo(Game.flags.CollectionPoint);
+            creep.say('🚰');
 	    }
 	}
 };

@@ -1,11 +1,10 @@
+var harvestModule = require("harvestModule");
+var buildingModule = require("buildingModule");
+
 var roleUpgrader = {
 
     /** @param {Creep} creep **/
     run: function(creep) {
-
-        //own harvest function
-        var harvestModule = require("harvestModule");
-        var buildingModule = require("buildingModule");
 
         if(creep.memory.upgrading && creep.store[RESOURCE_ENERGY] === 0) {
             creep.memory.upgrading = false;
@@ -17,13 +16,10 @@ var roleUpgrader = {
 	    }
 
 	    if(creep.memory.upgrading) {
-            buildingModule.ownUpgrading(creep);
+            buildingModule.upgradeRoomController(creep);
         }
         else {
-            var harvestFinished = harvestModule.ownHarvestFromStorage(creep);
-            if(harvestFinished != 1){
-                creep.moveTo(Game.flags.CollectionPoint);
-            }
+            harvestModule.harvestClosestStorage(creep);
         }
 	}
 };

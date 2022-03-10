@@ -4,9 +4,10 @@ module.exports = {
      * function for transfering energy to spawn and extensions or containers and towers and storage
      * 
      * @param {Object} creep creep that should transfer energy
-     * @returns {Number}    1 if the creep succesfully transfers or moves to a structure, -1 else
+     * 
+     * TODO: more efficient filtering and sorting 
      */
-    ownTransfering: function(creep) {
+    transferEnergy: function(creep) {
         //searches spawns that have less than max energy in the room the creep is in and stores them in targets[]
         var targets = creep.room.find(FIND_STRUCTURES, {
             filter: (structure) => {
@@ -46,23 +47,17 @@ module.exports = {
         if (targets.length) {
             if (creep.transfer(targets[0], RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
                 creep.moveTo(targets[0]);
-                return 1;
-            } else {
-                return 1;
             }
-        } else {
-            return -1;
+            creep.memory.target = targets[0];
         }
     },
 
     /**
-     * function for transfering minerals into the storage on the roo m the creep is in
+     * function for transferring minerals into the storage on the room the creep is in
      * 
      * @param {Object} creep creep that should transfer minerals
-     * @param {String} mineral One of the RESOURCE_* constants
-     * @returns {Number} 1 if transfering successfull, -1 else
      */
-    ownMineralTransfering: function(creep){
+    transferMinerals: function(creep){
         var targets = creep.room.find(FIND_STRUCTURES, {
             filter: (structure) => {
                 return (structure.structureType === STRUCTURE_STORAGE)
@@ -77,18 +72,13 @@ module.exports = {
                 if(resourceType != RESOURCE_ENERGY){
                     ret = creep.transfer(targets[0], resourceType);
                     console.log(resourceType);
-                } else {
-                    continue;
                 }
             }
+
             if (ret === ERR_NOT_IN_RANGE) {
                 creep.moveTo(targets[0]);
-                return 1;
-            } else {
-                return 1;
             }
-        } else {
-            return -1;
+            creep.memory.target = targets[0];
         }
     }
 };

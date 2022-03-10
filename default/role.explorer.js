@@ -1,10 +1,12 @@
+var harvestModule = require("harvestModule");
+var transferModule = require("transferModule");
+
+// TODO: Dont hardcode any roomnames!
+// TODO: general structure and logic
 var roleExplorer = {
 
     /** @param {Creep} creep **/
     run: function(creep) {
-        //own modules
-        var harvestModule = require("harvestModule");
-        var transferModule = require("transferModule");
 
         //set "working" status to true or false based on energy stored in the creep
         if(creep.memory.working && creep.store[RESOURCE_ENERGY] === 0) {
@@ -22,13 +24,8 @@ var roleExplorer = {
                 creep.moveTo(target);
             } else {
                 //transfering stored energy to spawn or other structures
-                var transferingFinished = transferModule.ownMineralTransfering(creep);
-                //console.log(harvestFinished);
-                transferingFinished = transferModule.ownTransfering(creep);
-
-                if(transferingFinished != 1){
-                    creep.moveTo(Game.flags.CollectionPoint);
-                }
+                transferModule.transferEnergy(creep);
+                transferModule.transferMinerals(creep);
             }
         } else {
             if(creep.room.name == "W3S8"){
@@ -36,12 +33,8 @@ var roleExplorer = {
                 creep.moveTo(target);
             } else {
                 //trying to harvest energy from container or Storage
-                var harvestFinished = harvestModule.ownHarvest(creep, 0);
-                /*
-                if(harvestFinished != 1){
-                    creep.moveTo(Game.flags.CollectionPoint);
-                }
-                */
+                harvestModule.harvestClosestStorage(creep);
+                harvestModule.harvestClosestContainer(creep);
             }
         }
 	}

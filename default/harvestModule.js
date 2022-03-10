@@ -15,6 +15,7 @@ module.exports = {
             if(creep.harvest(sources[0]) === ERR_NOT_IN_RANGE) {
                 creep.moveTo(sources[0]);
             }
+            creep.memory.target = sources[0];
         }
     },
 
@@ -37,6 +38,7 @@ module.exports = {
             if(creep.withdraw(source, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
                 creep.moveTo(source);
             }
+            creep.memory.target = source;
         }
     },
 
@@ -59,6 +61,7 @@ module.exports = {
             if(creep.withdraw(source, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
                 creep.moveTo(source);
             }
+            creep.memory.target = source;
         }
     },
 
@@ -79,6 +82,7 @@ module.exports = {
             if(creep.pickup(energy) === ERR_NOT_IN_RANGE) {
                 creep.moveTo(energy);
             }
+            creep.memory.target = energy;
         }
     },
 
@@ -91,10 +95,12 @@ module.exports = {
      */
     harvestClosestMineral: function(creep){
         var source = creep.pos.findClosestByRange(FIND_MINERALS);
+        
         if(source) {
             if(creep.harvest(source) === ERR_NOT_IN_RANGE) {
                 creep.moveTo(source);
             }
+            creep.memory.target = source;
         }
     },
 
@@ -115,6 +121,7 @@ module.exports = {
             if(creep.withdraw(source, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
                 creep.moveTo(source);
             }
+            creep.memory.target = source;
         }
     },
 
@@ -128,6 +135,7 @@ module.exports = {
         if(creep.harvest(source, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
             creep.moveTo(source);
         }
+        creep.memory.target = source;
     },
 
 
@@ -141,6 +149,7 @@ module.exports = {
         if(creep.withdraw(source, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
             creep.moveTo(source);
         }
+        creep.memory.target = source;
     }
 };
 
