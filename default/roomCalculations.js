@@ -1,10 +1,20 @@
 module.exports = {
 
-    checkForSpawn: function(room){ 
+    findAllConstructionSites: function() {
+        var constructionSites = Game.constructionSites;
+        // TODO: filter only ids of sites
+        var ids = constructionSites.filter(
+            site => { return site}
+        )
+        // only ids would be better
+        Memory.constructionSites = constructionSites;
+    },
+
+    hasSpawn: function(room){ 
         return (room.find(FIND_MY_SPAWNS).length > 0);
     },
 
-    checkForStorage: function(room){
+    hasStorage: function(room){
         return (room.find(FIND_MY_STRUCTURES, {
             filter: (structure) => {
                 return (structure.structureType === STRUCTURE_STORAGE);

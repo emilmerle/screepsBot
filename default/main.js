@@ -1,6 +1,9 @@
 var roomControl = require("roomControl");
+var roomCalculations = require("roomCalculations");
 
 module.exports.loop = function () {
+
+    roomCalculations.findAllConstructionSites();
 
     //console logs:
     console.log('\n');
