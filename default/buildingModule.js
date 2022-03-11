@@ -15,15 +15,7 @@ module.exports = {
         */
 
         //build the first construction site from the memory
-        // finished construction sites are not cleared before the function is run
-        // so target would be 0
-        // can be removed when calculations are run before this function   
-        var i = 0;
-        var target;
-        do {
-            target = Game.getObjectById(Memory.constructionSites[i]);
-            i++;
-        } while (target == null);
+        var target = Game.getObjectById(Memory.constructionSites[0]);
         
         if (creep.build(target) === ERR_NOT_IN_RANGE) {
             creep.moveTo(target);
@@ -59,15 +51,7 @@ module.exports = {
      */
     repairAllStructures: function(creep) {
         // repair first damaged structure in memory 
-        // finished construction sites are not cleared before the function is run
-        // so target would be 0
-        // can be removed when calculations are run before this function   
-        var i = 0;
-        var target;
-        do {
-            target = Game.getObjectById(Memory[creep.room.name].damagedStructures[i]);
-            i++;
-        } while (target == null);
+        var target = Game.getObjectById(Memory[creep.room.name].damagedStructures[0]);
 
         if (creep.repair(target) === ERR_NOT_IN_RANGE) {
             creep.moveTo(target);

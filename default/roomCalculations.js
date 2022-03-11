@@ -2,7 +2,6 @@ module.exports = {
 
     initializeMemory: function() {
         //initializing memory objects for every room
-
         for(var room in Game.rooms){
             if(!Memory[room]){
                 console.log("Initializing Memory for room ", room);
@@ -14,7 +13,6 @@ module.exports = {
                 //console.log(Memory[roomName].name);
             }
         }
-        
     },
 
     saveAllAvailableRooms: function() {
