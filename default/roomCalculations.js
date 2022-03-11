@@ -1,5 +1,21 @@
-
 module.exports = {
+
+    initializeMemory: function() {
+        //initializing memory objects for every room
+
+        for(var room in Game.rooms){
+            if(!Memory[room]){
+                console.log("Initializing Memory for room ", room);
+                Memory[room] = {};
+                Memory[room].name = room;
+                //Memory[room.name].hasSpawn = hasSpawn;
+                //Memory[room.name].spawnQueue = [];
+            } else {
+                //console.log(Memory[roomName].name);
+            }
+        }
+        
+    },
 
     saveAllAvailableRooms: function() {
         var rooms = Game.rooms;

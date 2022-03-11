@@ -11,19 +11,19 @@ module.exports.loop = function () {
         }
     }
 
+    // calculations for all rooms:
+    roomCalculations.initializeMemory();
+    roomCalculations.saveAllDamagedStructures();
+    roomCalculations.saveAllAvailableRooms();
+    roomCalculations.saveAllConstructionSites();
+
     // TODO: initializing of memory objects before calculations but running creeps after
-    
+
     //run all rooms (important!)
     var myRooms = Game.rooms;
     for(var i in myRooms){
         roomControl.run(i);
-        
     }
-
-    // calculations for all rooms:
-    roomCalculations.saveAllDamagedStructures();
-    roomCalculations.saveAllAvailableRooms();
-    roomCalculations.saveAllConstructionSites();
 
     //console logs:
     console.log('\n');

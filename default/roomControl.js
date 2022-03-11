@@ -103,19 +103,6 @@ var roomControl = {
 
 
 
-    //initializing memory objects for every room
-    if(!Memory[roomName]){
-        console.log("Eintragen");
-        Memory[roomName] = {};
-        Memory[roomName].name = roomName;
-        Memory[roomName].hasSpawn = hasSpawn;
-        Memory[roomName].spawnQueue = [];
-    } else {
-        //console.log(Memory[roomName].name);
-    }
-
-
-
     //  filter creeps by role
     var carrier = _.filter(myCreeps, (creep) => creep.memory.role === 'carrier');
     var staticHarvester = _.filter(myCreeps, (creep) => creep.memory.role === "staticHarvester");
