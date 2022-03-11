@@ -19,9 +19,12 @@ var roleBuilder = {
 	    if(creep.memory.building) {
 			// I dont know if that works or in which order it would be performed!
 			// best would be build, if not then repair and if not then upgrade
-			buildingModule.upgradeRoomController(creep);
-			buildingModule.repairAllStructures(creep);
-			buildingModule.buildAllContructionSites(creep);
+			if(Memory.constructionSites.length) {
+				buildingModule.buildAllContructionSites(creep);
+			} else {
+				buildingModule.upgradeRoomController(creep);
+				buildingModule.repairAllStructures(creep);
+			}
             creep.say('🏗️');
 	    }
 	    else {
