@@ -7,16 +7,28 @@ module.exports = {
     },
 
     saveAllDamagedStructures: function() {
+        for(var i in Game.rooms){
+            var room = Game.rooms[i];
+            var structures;
+            structures = room.find(FIND_STRUCTURES, {
+                filter: (structure) => {
+                    return (structure.hits < structure.hitsMax);
+                }
+            });
 
-        var structures = Game.structures;
-        // roads are not in here
-        Memory.damagedStructures = structures;
-        structures = Object.entries(structures).map(item => {
-            if (item[1].hits < item[1].hitsMax) {
-                return item;
+            var arr = [];
+            for (const key in Object.values(structures)) {
+                arr.push(structures[key].id);
             }
-        });
-        console.log(structures.length);
+            
+            Memory[i].damagedStructures = arr;
+        }
+        
+    },
+
+    saveRoadConstructionSites: function() {
+        var constructionSites = Game.constructionSites;
+        Memory.constructionSites = Object.keys(constructionSites);
     },
 
     saveAllConstructionSites: function() {

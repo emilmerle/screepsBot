@@ -103,7 +103,7 @@ var roomControl = {
 
 
 
-    //initializing memory objects
+    //initializing memory objects for every room
     if(!Memory[roomName]){
         console.log("Eintragen");
         Memory[roomName] = {};

@@ -21,11 +21,14 @@ var roleBuilder = {
 			// best would be build, if not then repair and if not then upgrade
 			if(Memory.constructionSites.length) {
 				buildingModule.buildAllContructionSites(creep);
+				creep.say("⚒️");
+			} else if (Memory[creep.room.name].damagedStructures.length){
+				buildingModule.repairAllStructures(creep);
+				creep.say('🔧');
 			} else {
 				buildingModule.upgradeRoomController(creep);
-				buildingModule.repairAllStructures(creep);
+				creep.say('⬆️');
 			}
-            creep.say('🏗️');
 	    }
 	    else {
 			harvestModule.harvestAllSources(creep);

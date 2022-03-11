@@ -6,18 +6,26 @@ module.exports = {
      */
     buildAllContructionSites: function(creep) {
         // filtering only own construction sites
+        /*
         var buildingTargets = creep.room.find(FIND_MY_CONSTRUCTION_SITES, {
             filter: (constructionSite) => {
                 return (constructionSite.my === true);
             }
         });
+        */
+
+        //build the first construction site from the memory
+        var i = 0;
+        var target;
+        do {
+            target = Game.getObjectById(Memory.constructionSites[i]);
+            i++;
+        } while (target == null);
         
-        if (buildingTargets.length) {
-            if (creep.build(buildingTargets[0]) === ERR_NOT_IN_RANGE) {
-                creep.moveTo(buildingTargets[0]);
-            }
-            creep.memory.target = buildingTargets[0].id;
+        if (creep.build(target) === ERR_NOT_IN_RANGE) {
+            creep.moveTo(target);
         }
+        creep.memory.target = target.id;
     },
 
 
@@ -47,13 +55,14 @@ module.exports = {
      * @param {Object} creep creep that should repair something
      */
     repairAllStructures: function(creep) {
-        var repairingTargets = creep.room.find(FIND_STRUCTURES);
-        if (repairingTargets.length) {
-            if (creep.repair(repairingTargets[0]) === ERR_NOT_IN_RANGE) {
-                creep.moveTo(repairingTargets[0]);
-            }
-            creep.memory.target = repairingTargets[0].id;
+        // repair first damaged structure in memory
+        var target = Game.getObjectById(Memory[creep.room.name].damagedStructures[0]);
+    
+        if (creep.repair(target) === ERR_NOT_IN_RANGE) {
+            creep.moveTo(target);
         }
+        creep.memory.target = target.id;
+    
     },
 
 
