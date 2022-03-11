@@ -3,7 +3,8 @@ var roomCalculations = require("roomCalculations");
 
 module.exports.loop = function () {
 
-    roomCalculations.findAllConstructionSites();
+    roomCalculations.saveAllAvailableRooms();
+    roomCalculations.saveAllConstructionSites();
 
     //console logs:
     console.log('\n');

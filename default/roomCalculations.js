@@ -1,13 +1,27 @@
+
 module.exports = {
 
-    findAllConstructionSites: function() {
+    saveAllAvailableRooms: function() {
+        var rooms = Game.rooms;
+        Memory.rooms = Object.keys(rooms);
+    },
+
+    saveAllDamagedStructures: function() {
+
+        var structures = Game.structures;
+        // roads are not in here
+        Memory.damagedStructures = structures;
+        structures = Object.entries(structures).map(item => {
+            if (item[1].hits < item[1].hitsMax) {
+                return item;
+            }
+        });
+        console.log(structures.length);
+    },
+
+    saveAllConstructionSites: function() {
         var constructionSites = Game.constructionSites;
-        // TODO: filter only ids of sites
-        var ids = constructionSites.filter(
-            site => { return site}
-        )
-        // only ids would be better
-        Memory.constructionSites = constructionSites;
+        Memory.constructionSites = Object.keys(constructionSites);
     },
 
     hasSpawn: function(room){ 
