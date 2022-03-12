@@ -6,6 +6,9 @@ module.exports.loop = function () {
 
     roomSources.saveContainers();
     roomSources.saveStorages();
+    roomSources.saveEnergySources();
+    roomSources.saveDroppedEnergy();
+    roomSources.saveWithdrawSources();
 
     //Clearing memory of dead creeps
     for(var name in Memory.creeps) {

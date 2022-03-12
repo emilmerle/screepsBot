@@ -6,5 +6,10 @@
 - target: target the creeps wants to go/ do something with. (id)
 
 ## Room:
-- constructionSites: MISSING
-- sources: MISSING
+- name: name of room (string)
+- sources: all energy sources in the room (id)
+- droppedEnergy: all dropped energy  in the room(id)
+- otherEnergy: energy in the room in tombstones or ruins (id)
+- containers: all containers in the room (id)
+- storage: storage in the room (id) or null if missing
+- damagedStructures: all damaged structures in the room (ids)
