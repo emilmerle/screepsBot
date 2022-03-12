@@ -31,9 +31,9 @@ var roleBuilder = {
 				harvestModule.pickupClosestDroppedEnergy(creep);
 			} else if (Memory[creep.room.name].otherEnergy.length) {
 				harvestModule.lootEnergy(creep);
-			} else if (Memory[creep.room.name].storage != null) {
+			} else if (Memory[creep.room.name].energyStorage != null) {
 				harvestModule.harvestClosestStorage(creep);
-			} else if (Memory[creep.room.name].containers.length) {
+			} else if (Memory[creep.room.name].energyContainers.length) {
 				harvestModule.harvestClosestContainer(creep);
 			} else {
 				harvestModule.harvestAllSources(creep);

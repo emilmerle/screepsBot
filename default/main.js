@@ -4,12 +4,6 @@ var roomSources = require("roomSources");
 
 module.exports.loop = function () {
 
-    roomSources.saveContainers();
-    roomSources.saveStorages();
-    roomSources.saveEnergySources();
-    roomSources.saveDroppedEnergy();
-    roomSources.saveWithdrawSources();
-
     //Clearing memory of dead creeps
     for(var name in Memory.creeps) {
         if(!Game.creeps[name]) {
@@ -23,6 +17,12 @@ module.exports.loop = function () {
     roomCalculations.saveAllDamagedStructures();
     roomCalculations.saveAllAvailableRooms();
     roomCalculations.saveAllConstructionSites();
+
+    roomSources.saveContainers();
+    roomSources.saveStorages();
+    roomSources.saveEnergySources();
+    roomSources.saveDroppedEnergy();
+    roomSources.saveWithdrawSources();
 
     // TODO: initializing of memory objects before calculations but running creeps after
 

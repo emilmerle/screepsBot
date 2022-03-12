@@ -23,21 +23,12 @@ module.exports = {
      * @param {Object} creep creep that should withdraw from a container
      */
     harvestClosestContainer: function(creep) {
-        // only get containers that have more energy than the creep can pickup
-        // more than 0 would also be possible
-        var container;
-        for (let index = 0; index < Memory[creep.room.name].containers.length; index++) {
-            container = Game.getObjectById(Memory[creep.room.name].containers[index]);
-            if (container.store[RESOURCE_ENERGY] > creep.store.getFreeCapacity()) {
-                break;
-            }
-        }
-        var source = container;
+        var container = Game.getObjectById(Memory[creep.room.name].energyContainers[0]);
 
-        if(creep.withdraw(source, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
-            creep.moveTo(source);
+        if(creep.withdraw(container, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
+            creep.moveTo(container);
         }
-        creep.memory.target = source;
+        creep.memory.target = container;
     },
 
 

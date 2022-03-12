@@ -10,6 +10,8 @@
 - sources: all energy sources in the room (id)
 - droppedEnergy: all dropped energy  in the room(id)
 - otherEnergy: energy in the room in tombstones or ruins (id)
-- containers: all containers in the room (id)
+- energyContainers: all containers with energy stored in the room (id)
+- allContainers: all containers in the room (id)
 - storage: storage in the room (id) or null if missing
+- energyStorage: storage with energy stored in the room (id) or null if missing
 - damagedStructures: all damaged structures in the room (ids)

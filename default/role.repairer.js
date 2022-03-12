@@ -22,9 +22,18 @@ var roleRepairer = {
 			}
 		}
 		else {
-            harvestModule.harvestClosestStorage(creep);
-			harvestModule.pickupClosestDroppedEnergy(creep);
-			harvestModule.lootClosestTombstone(creep);
+            if(Memory[creep.room.name].droppedEnergy.length) {
+				harvestModule.pickupClosestDroppedEnergy(creep);
+			} else if (Memory[creep.room.name].otherEnergy.length) {
+				harvestModule.lootEnergy(creep);
+			} else if (Memory[creep.room.name].storage != null) {
+				harvestModule.harvestClosestStorage(creep);
+			} else if (Memory[creep.room.name].containers.length) {
+				harvestModule.harvestClosestContainer(creep);
+			} else {
+				harvestModule.harvestAllSources(creep);
+			}
+            creep.say('🚰');
 		}
 	}
 };

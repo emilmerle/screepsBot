@@ -10,10 +10,16 @@ module.exports = {
 
     saveStorages: function() {
         for(var roomName in Game.rooms){
-            if (Game.rooms[roomName].storage != undefined) {
-                Memory[roomName].storage = Game.rooms[roomName].storage.id;
+            var storage = Game.rooms[roomName].storage;
+            if (storage != undefined) {
+                Memory[roomName].storage = storage.id;
+                Memory[roomName].energyStorage = null;
+                if (storage.store[RESOURCE_ENERGY] > 0) {
+                    Memory[roomName].energyStorage = storage.id;
+                }
             } else {
                 Memory[roomName].storage = null;
+                Memory[roomName].energyStorage = null;
             }
         }
     },
@@ -22,13 +28,18 @@ module.exports = {
 
         for(var roomName in Game.rooms){
             var room = Game.rooms[roomName];
-            var containers = room.find(FIND_STRUCTURES, {
+            var allContainers = room.find(FIND_STRUCTURES, {
                 filter: (structure) => {
                     return (structure.structureType == STRUCTURE_CONTAINER);
                 }
             });
 
-           Memory[roomName].containers = Object.values(containers).map(x => x.id);
+            var energyContainers = allContainers.filter(
+                x => (x.store[RESOURCE_ENERGY] > 0)
+            );
+
+           Memory[roomName].energyContainers = Object.values(energyContainers).map(x => x.id);
+           Memory[roomName].allContainers = Object.values(allContainers).map(x => x.id);
         }
 
         
