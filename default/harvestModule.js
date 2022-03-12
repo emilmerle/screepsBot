@@ -6,17 +6,14 @@ module.exports = {
      * @param {Object} creep creep that should harvest energy
      */
     harvestAllSources: function(creep) {
-        var sources = creep.room.find(FIND_SOURCES);
+        // choosing a random source for every creep would be good
+        // choosing a new source every tick would not work
+        var source = Game.getObjectById(Memory[creep.room.name].sources[0]);
 
-        if(sources.length) {
-            // pick random source from all sources
-            // not working because every tick an different source is picked
-            var targetSource = Math.floor(Math.random() * sources.length)
-            if(creep.harvest(sources[0]) === ERR_NOT_IN_RANGE) {
-                creep.moveTo(sources[0]);
-            }
-            creep.memory.target = sources[0];
+        if(creep.harvest(source) === ERR_NOT_IN_RANGE) {
+            creep.moveTo(source);
         }
+        creep.memory.target = source;
     },
 
 
@@ -26,20 +23,21 @@ module.exports = {
      * @param {Object} creep creep that should withdraw from a container
      */
     harvestClosestContainer: function(creep) {
-        //finding containers in the room
-        var source = creep.pos.findClosestByRange(FIND_STRUCTURES, {
-            filter: (structure) => {
-                return (structure.structureType === STRUCTURE_CONTAINER)
-                    && structure.store.getUsedCapacity(RESOURCE_ENERGY) > creep.store.getCapacity();
+        // only get containers that have more energy than the creep can pickup
+        // more than 0 would also be possible
+        var container;
+        for (let index = 0; index < Memory[creep.room.name].containers.length; index++) {
+            container = Game.getObjectById(Memory[creep.room.name].containers[index]);
+            if (container.store[RESOURCE_ENERGY] > creep.store.getFreeCapacity()) {
+                break;
             }
-        });
-
-        if (source) {
-            if(creep.withdraw(source, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
-                creep.moveTo(source);
-            }
-            creep.memory.target = source;
         }
+        var source = container;
+
+        if(creep.withdraw(source, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
+            creep.moveTo(source);
+        }
+        creep.memory.target = source;
     },
 
 
@@ -50,18 +48,14 @@ module.exports = {
      */
     harvestClosestStorage: function(creep){
         //finding storage in the room
-        var source = creep.pos.findClosestByRange(FIND_STRUCTURES, {
-            filter: (structure) => {
-                return (structure.structureType === STRUCTURE_STORAGE)
-                    && structure.store.getUsedCapacity(RESOURCE_ENERGY) > creep.store.getCapacity();
-            }
-        });
-
-        if(source) {
+        var source = Game.getObjectById(Memory[creep.room.name].storage);
+        if(source.store[RESOURCE_ENERGY] > 0) {
             if(creep.withdraw(source, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
                 creep.moveTo(source);
             }
             creep.memory.target = source;
+        } else {
+            return;
         }
     },
 
@@ -72,18 +66,12 @@ module.exports = {
      * @param {Object} creep Creep that should find dropped resources
      */
     pickupClosestDroppedEnergy: function(creep){
-        var energy = creep.pos.findClosestByRange(FIND_DROPPED_RESOURCES, {
-            filter: (resource) => {
-                return (resource.resourceType === RESOURCE_ENERGY);
-            }
-        });
+        var energy = Game.getObjectById(Memory[creep.room.name].droppedEnergy[0]);
         
-        if(energy) {
-            if(creep.pickup(energy) === ERR_NOT_IN_RANGE) {
-                creep.moveTo(energy);
-            }
-            creep.memory.target = energy;
+        if(creep.pickup(energy) === ERR_NOT_IN_RANGE) {
+            creep.moveTo(energy);
         }
+        creep.memory.target = energy;
     },
 
 
@@ -110,19 +98,13 @@ module.exports = {
      * 
      * @param {Object} creep creep that should loot the tombstone
      */
-    lootClosestTombstone: function(creep) {
-        var source = creep.pos.findClosestByRange(FIND_TOMBSTONES, {
-            filter: (structure) => {
-                return (structure.store.getUsedCapacity(RESOURCE_ENERGY) > 0);
-            }
-        });
+    lootEnergy: function(creep) {
+        var source = Game.getObjectById(Memory[creep.room.name].otherEnergy[0]);
         
-        if(source) {
-            if(creep.withdraw(source, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
-                creep.moveTo(source);
-            }
-            creep.memory.target = source;
+        if(creep.withdraw(source, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
+            creep.moveTo(source);
         }
+        creep.memory.target = source;
     },
 
     /**

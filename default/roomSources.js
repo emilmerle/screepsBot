@@ -55,14 +55,13 @@ module.exports = {
     },
 
     saveDroppedEnergy: function() {
-        //FIND_DROPPED_RESOURCES;
         for(var roomName in Game.rooms){
             var room = Game.rooms[roomName];
-            var droppedResources = room.find(FIND_DROPPED_RESOURCES)
+            var droppedEnergy = room.find(FIND_DROPPED_RESOURCES)
                 .filter(x => x.resourceType === RESOURCE_ENERGY)
                 .map(x => x.id);
 
-           Memory[roomName].droppedEnergy = droppedResources;
+           Memory[roomName].droppedEnergy = droppedEnergy;
         }
     },
 
