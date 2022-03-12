@@ -1,7 +1,11 @@
 var roomControl = require("roomControl");
 var roomCalculations = require("roomCalculations");
+var roomSources = require("roomSources");
 
 module.exports.loop = function () {
+
+    roomSources.saveContainers();
+    roomSources.saveStorages();
 
     //Clearing memory of dead creeps
     for(var name in Memory.creeps) {

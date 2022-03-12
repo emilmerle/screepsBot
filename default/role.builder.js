@@ -14,11 +14,7 @@ var roleBuilder = {
 	        creep.memory.building = true;
 	    }
 
-		// @TODO
-		// Some weird moving while building
 	    if(creep.memory.building) {
-			// I dont know if that works or in which order it would be performed!
-			// best would be build, if not then repair and if not then upgrade
 			if(Memory.constructionSites.length) {
 				buildingModule.buildAllContructionSites(creep);
 				creep.say("⚒️");
@@ -34,7 +30,6 @@ var roleBuilder = {
 			harvestModule.harvestAllSources(creep);
 			harvestModule.pickupClosestDroppedEnergy(creep);
 			harvestModule.harvestClosestStorage(creep);
-			creep.moveTo(Game.flags.CollectionPoint);
             creep.say('🚰');
 	    }
 	}

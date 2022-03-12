@@ -16,7 +16,10 @@ var roleRepairer = {
 		}
 
 		if(creep.memory.building) {
-			buildingModule.repairAllStructures(creep);
+			if (Memory[creep.room.name].damagedStructures.length) {
+				buildingModule.repairAllStructures(creep);
+				creep.say('🔧');
+			}
 		}
 		else {
             harvestModule.harvestClosestStorage(creep);

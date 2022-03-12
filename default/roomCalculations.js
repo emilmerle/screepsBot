@@ -2,15 +2,15 @@ module.exports = {
 
     initializeMemory: function() {
         //initializing memory objects for every room
-        for(var room in Game.rooms){
-            if(!Memory[room]){
-                console.log("Initializing Memory for room ", room);
-                Memory[room] = {};
-                Memory[room].name = room;
-                //Memory[room.name].hasSpawn = hasSpawn;
-                //Memory[room.name].spawnQueue = [];
+        for(var roomName in Game.rooms){
+            if(!Memory[roomName]){
+                console.log("Initializing Memory for room ", roomName);
+                Memory[roomName] = {};
+                Memory[roomName].name = roomName;
+                //Memory[room].hasSpawn = hasSpawn;
+                //Memory[room].spawnQueue = [];
             } else {
-                //console.log(Memory[roomName].name);
+                //console.log(Memory[room].name);
             }
         }
     },
@@ -29,13 +29,8 @@ module.exports = {
                     return (structure.hits < structure.hitsMax);
                 }
             });
-
-            var arr = [];
-            for (const key in Object.values(structures)) {
-                arr.push(structures[key].id);
-            }
             
-            Memory[i].damagedStructures = arr;
+            Memory[i].damagedStructures = Object.values(structures).map(x => x.id);
         }
         
     },
