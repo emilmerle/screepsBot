@@ -1,3 +1,4 @@
+var roleStarter = require('role.starter');
 var roleCarrier = require('role.carrier');
 var roleUpgrader = require('role.upgrader');
 var roleBuilder = require('role.builder');
@@ -17,7 +18,7 @@ var roomCalculations = require('roomCalculations');
 const BPEASIEST = [
     WORK,
     CARRY,
-    MOVE
+    MOVE, MOVE
 ];
 
 const BPNORMAL = [
@@ -33,13 +34,13 @@ const BPGENERAL = [
 ];
 
 const BPHARVESTER = [
-    WORK, WORK, WORK, WORK, WORK, 
-    MOVE, MOVE, MOVE
+    WORK, WORK,
+    MOVE, MOVE
 ];
 
 const BPCARRIER = [
-    CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY,
-    MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE
+    CARRY, CARRY, CARRY,
+    MOVE, MOVE, MOVE
 ];
 
 const BPFIGHTER = [
@@ -66,20 +67,6 @@ const BPCLAIMER = [
 
 
 
-// constants for how many creeps per role there should be in a room
-const WANTEDCARRIER = 0;
-const WANTEDSTATICHARVESTER = 0;
-const WANTEDUPGRADER = 0;
-const WANTEDBUILDER = 5;
-const WANTEDREPAIRER = 0;
-const WANTEDROADBUILDER = 0;
-const WANTEDEXTRACTOR = 0;
-const WANTEDFIGHTER = 0;
-const WANTEDEXPLORER = 0;
-const WANTEDCLAIMER = 0;
-
-
-
 /**
  * This is the module for controlling a room
  * This involves the creeps and tower, as well as other structures
@@ -96,14 +83,32 @@ var roomControl = {
     var room = Game.rooms[roomName];
 
     //  array with all the creeps in the room
-    var myCreeps = room.find(FIND_MY_CREEPS);
+    //var myCreeps = room.find(FIND_MY_CREEPS);
+    var myCreeps = Game.creeps;
 
     //  hasSpawn is true when theres a spawn in the room, false if not
     var hasSpawn = (room.find(FIND_MY_SPAWNS).length > 0);
+    
+
+
+
+    // constants for how many creeps per role there should be in a room
+    const WANTEDSTARTER = 1;
+    const WANTEDCARRIER = 3;
+    const WANTEDSTATICHARVESTER = 3;
+    const WANTEDUPGRADER = 0;
+    const WANTEDBUILDER = 0;
+    const WANTEDREPAIRER = 0;
+    const WANTEDROADBUILDER = 0;
+    const WANTEDEXTRACTOR = 0;
+    const WANTEDFIGHTER = 0;
+    const WANTEDEXPLORER = 0;
+    const WANTEDCLAIMER = 0;
 
 
 
     //  filter creeps by role
+    var starter = _.filter(myCreeps, (creep) => creep.memory.role === 'starter');
     var carrier = _.filter(myCreeps, (creep) => creep.memory.role === 'carrier');
     var staticHarvester = _.filter(myCreeps, (creep) => creep.memory.role === "staticHarvester");
     var upgrader = _.filter(myCreeps, (creep) => creep.memory.role === 'upgrader');
@@ -133,55 +138,19 @@ var roomControl = {
                 freeSpawn = thisSpawn[j];
             }
         }
-
-        // if(Game.time % 1000 == 0){
-        //     var testSpawned = spawnControl.spawnRoleCreep(freeSpawn, "test", [MOVE]);
-        //     console.log(testSpawned + " " + Game.time);
-        // }
-
-
-
-        // NOT FINISHED: 
-
-        // var spawnQueueCounted = _.countBy(Memory[roomName].spawnQueue);
-
-        // if  ( (spawnQueueCounted["carrier"]+carrier.length < WANTEDCARRIER && spawnQueueCounted["carrier"] != undefined)
-        //     || (carrier.length < WANTEDCARRIER && spawnQueueCounted["carrier"] == undefined) ){
-        //     Memory[roomName].spawnQueue.push("carrier");
-        //     console.log("pushed carrier");
-        // }
-
-        // spawnQueueCounted = _.countBy(Memory[roomName].spawnQueue);
-
-        // if(spawnQueueCounted["carrier"] > 0 && spawnQueueCounted["carrier"] != undefined){
-        //     var spawned = spawnControl.spawnRoleCreep(freeSpawn, "carrier", BPCARRIER);
-        //     console.log("Spawned one carrier: "+ spawned);
-        //     if(spawned == 0){
-        //         var index = Memory[roomName].spawnQueue.indexOf("carrier");
-        //         Memory[roomName].spawnQueue.splice(index, 1);
-        //     }
-        // }
-        // spawnQueueCounted = _.countBy(Memory[roomName].spawnQueue);
-        // //console.log(spawnQueueCounted["carrier"]);
-
-        // var spawningNow = [-1, -1, -1];
-        // for(var i = 0; i < thisSpawn.length; i++){
-        //     //console.log(thisSpawn[i].spawning);
-        //     if(thisSpawn[i].spawning != null){
-        //         spawningNow[i] = thisSpawn[i].spawning.name;
-        //     } else {
-        //         spawningNow[i] = -1;
-        //     }
-        // }
-        // console.log(spawningNow);
-
-        // spawnQueueCounted = _.countBy(Memory[roomName].spawnQueue);
-        // var index = Memory[roomName].spawnQueue.indexOf("carrier");
-        // Memory[roomName].spawnQueue.splice(index, 1);
             
 
 
         // spawning new creeps if number alive is below wanted number 
+        if(starter.length < WANTEDSTARTER){
+            var newName = "starter" + 0;
+            console.log("Trying to spawn Starter");
+            if(Game.spawns[freeSpawn.name].spawnCreep(BPEASIEST, newName, {memory: {role: "starter"}}) === ERR_NAME_EXISTS){
+                newName = "starter" + 1;
+                Game.spawns[freeSpawn.name].spawnCreep(BPEASIEST, newName, {memory: {role: "starter"}});
+            }
+        }
+
         if(carrier.length < WANTEDCARRIER) {
             spawnControl.spawnRoleCreep(freeSpawn, "carrier", BPCARRIER);
         }
@@ -258,10 +227,12 @@ var roomControl = {
         towerModule.ownHealAllies();
 
 
-
         //control creeps
         for(var name in myCreeps) {
             var creep = myCreeps[name];
+            if(creep.memory.role === 'starter') {
+                roleStarter.run(creep);
+            }
             if(creep.memory.role === 'repairer') {
                 roleRepairer.run(creep);
             }

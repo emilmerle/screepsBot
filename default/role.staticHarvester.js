@@ -4,7 +4,7 @@ var roleStaticHarvester = {
 
     /** @param {Creep} creep **/
     run: function(creep) {
-        harvestModule.harvestAllSources(creep);
+        harvestModule.harvestEnergySources(creep);
 	}
 };
 

@@ -5,7 +5,7 @@ module.exports = {
      * 
      * @param {Object} creep creep that should harvest energy
      */
-    harvestAllSources: function(creep) {
+    harvestEnergySources: function(creep) {
         // choosing a random source for every creep would be good
         // choosing a new source every tick would not work
         var source = Game.getObjectById(Memory[creep.room.name].sources[0]);

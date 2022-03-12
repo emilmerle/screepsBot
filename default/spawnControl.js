@@ -8,7 +8,7 @@ module.exports = {
      */
     spawnRoleCreep: function(spawnToUse, roleToHave, BP){
         var newName = roleToHave + Game.time;
-        console.log('Trying to spawn new '+ roleToHave+ " : " + newName);
+        console.log('Trying to spawn new '+ roleToHave + " : " + newName);
         var spawned = Game.spawns[spawnToUse.name].spawnCreep(BP, newName,
             {memory: {role: roleToHave}});
         //console.log(spawned);

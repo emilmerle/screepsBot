@@ -2,7 +2,7 @@ var harvestModule = require("harvestModule");
 var transferModule = require("transferModule");
 var buildingModule = require("buildingModule");
 
-var roleCarrier = {
+var roleStarter = {
 
     /** @param {Creep} creep **/
     run: function(creep) {
@@ -18,7 +18,12 @@ var roleCarrier = {
 	    }
 
         if(creep.memory.working) {
-            transferModule.transferEnergy(creep);
+            if (creep.room.energyAvailable === creep.room.energyCapacityAvailable) {
+                buildingModule.upgradeRoomController(creep);
+            } else {
+                transferModule.transferEnergy(creep);
+                //transferModule.transferMinerals(creep);
+            }
         } else {
             if(Memory[creep.room.name].droppedEnergy.length) {
 				harvestModule.pickupClosestDroppedEnergy(creep);
@@ -36,4 +41,4 @@ var roleCarrier = {
 	}
 };
 
-module.exports = roleCarrier;
+module.exports = roleStarter;

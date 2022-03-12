@@ -67,8 +67,11 @@ module.exports = {
      * @param {Object} creep creep that should upgrade
      */
     upgradeRoomController: function(creep) {
-        if(creep.upgradeController(creep.room.controller) === ERR_NOT_IN_RANGE) {
+        var status = creep.upgradeController(creep.room.controller);
+        if(status === ERR_NOT_IN_RANGE) {
             creep.moveTo(creep.room.controller);
+        } else if (status === ERR_NO_BODYPART){
+            creep.drop(RESOURCE_ENERGY);
         }
         creep.memory.target = creep.room.controller.id;
     },

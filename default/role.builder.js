@@ -36,7 +36,7 @@ var roleBuilder = {
 			} else if (Memory[creep.room.name].energyContainers.length) {
 				harvestModule.harvestClosestContainer(creep);
 			} else {
-				harvestModule.harvestAllSources(creep);
+				harvestModule.harvestEnergySources(creep);
 			}
             creep.say('🚰');
 	    }
