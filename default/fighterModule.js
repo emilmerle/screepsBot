@@ -1,4 +1,4 @@
-var fighterModule = {
+module.exports = {
 
     attackAllHostiles: function(creep){
         const target = creep.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
@@ -37,4 +37,3 @@ var fighterModule = {
         }
     }
 };
-module.exports = fighterModule;

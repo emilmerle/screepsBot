@@ -2,6 +2,7 @@
 ## Global:
 - constructionSites: all construction sites (id)
 - rooms: all available rooms (roomname)
+- allSpawns: all my spawns (id)
 ### Creeps:
 - target: target the creeps wants to go/ do something with. (id)
 
@@ -15,3 +16,4 @@
 - storage: storage in the room (id) or null if missing
 - energyStorage: storage with energy stored in the room (id) or null if missing
 - damagedStructures: all damaged structures in the room (ids)
+- allSpawns: all spawns in this room

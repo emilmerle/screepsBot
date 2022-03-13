@@ -2,6 +2,8 @@ var roomControl = require("roomControl");
 var roomCalculations = require("roomCalculations");
 var roomSources = require("roomSources");
 
+var constants = require("level");
+
 module.exports.loop = function () {
 
     //Clearing memory of dead creeps
@@ -17,6 +19,7 @@ module.exports.loop = function () {
     roomCalculations.saveAllDamagedStructures();
     roomCalculations.saveAllAvailableRooms();
     roomCalculations.saveAllConstructionSites();
+    roomCalculations.saveAllSpawns();
 
     roomSources.saveContainers();
     roomSources.saveStorages();
@@ -24,7 +27,7 @@ module.exports.loop = function () {
     roomSources.saveDroppedEnergy();
     roomSources.saveWithdrawSources();
 
-    // TODO: initializing of memory objects before calculations but running creeps after
+    roomCalculations.calculatePathsToSources();
 
     //run all rooms (important!)
     var myRooms = Game.rooms;

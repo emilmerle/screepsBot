@@ -1,3 +1,5 @@
+var constants = require("level");
+
 module.exports = {
 
     initializeMemory: function() {
@@ -15,14 +17,59 @@ module.exports = {
         }
     },
 
+    saveAllSpawns: function() {
+        var allSpawns = [];
+        var allRoomsSpawns = [];
+        var spawns;
+        for(var roomName in Game.rooms){
+            var room = Game.rooms[roomName];
+            spawns = room.find(FIND_MY_SPAWNS);
+            for (const spawnName in spawns) {
+                allRoomsSpawns.push(spawns[spawnName].id);
+                allSpawns.push(spawns[spawnName].id);
+            }
+            Memory[roomName].allSpawns = allRoomsSpawns;
+            allRoomsSpawns = [];
+        }
+        Memory.allSpawns = allSpawns; 
+    },
+
+    calculatePathsToSources: function() {
+        var room;
+        for(var roomName in Game.rooms){
+            room = Game.rooms[roomName];
+
+            var source;
+            for (const sourceId in Memory[roomName].sources) {
+                source = Game.getObjectById(Memory[roomName].sources[sourceId]);
+
+                var spawn;
+                for (const spawnId in Memory[roomName].allSpawns) {
+                    spawn = Game.getObjectById(Memory[roomName].allSpawns[spawnId]);
+                    var path = room.findPath(source.pos, spawn.pos);
+                    console.log(path); 
+                }
+            }
+        }
+    },
+
+    // TODO
+    calculateCreepNumber: function() {
+        for(var roomName in Game.rooms){
+            var room = Game.rooms[roomName];
+            
+            constants.creeps.staticHarvester[1] = Memory[roomName].sources.length;
+        }
+    },
+
     saveAllAvailableRooms: function() {
         var rooms = Game.rooms;
         Memory.rooms = Object.keys(rooms);
     },
 
     saveAllDamagedStructures: function() {
-        for(var i in Game.rooms){
-            var room = Game.rooms[i];
+        for(var roomName in Game.rooms){
+            var room = Game.rooms[roomName];
             var structures;
             structures = room.find(FIND_STRUCTURES, {
                 filter: (structure) => {
@@ -30,11 +77,12 @@ module.exports = {
                 }
             });
             
-            Memory[i].damagedStructures = Object.values(structures).map(x => x.id);
+            Memory[roomName].damagedStructures = Object.values(structures).map(x => x.id);
         }
         
     },
 
+    // TODO: filter roads
     saveRoadConstructionSites: function() {
         var constructionSites = Game.constructionSites;
         Memory.constructionSites = Object.keys(constructionSites);
@@ -55,23 +103,5 @@ module.exports = {
                 return (structure.structureType === STRUCTURE_STORAGE);
             }
         }).length > 0)
-    },
-
-    pathSourcesSpawn(room){
-        var spawn = room.find(FIND_MY_STRUCTURES, {
-            filter: (structure) => {
-                return (structure.structureType === STRUCTURE_SPAWN);
-            }
-        });
-
-        let goals = _.map(room.find(FIND_SOURCES), function(source) {
-            // We can't actually walk on sources-- set `range` to 1 
-            // so we path next to it.
-            return { pos: source.pos, range: 1 };
-        });
-
-        //var ret = PathFinder.search(spawn, goals);
-        //console.log(ret);
-        //Memory[room.name].testPath = ret;
     },
 };

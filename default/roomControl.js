@@ -11,6 +11,7 @@ var roleExplorer = require("role.explorer");
 var roleClaimer = require("role.claimer");
 
 var towerModule = require("towerModule");
+
 var spawnControl = require("spawnControl");
 var roomCalculations = require('roomCalculations'); 
 
