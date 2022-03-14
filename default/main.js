@@ -27,7 +27,13 @@ module.exports.loop = function () {
     roomSources.saveDroppedEnergy();
     roomSources.saveWithdrawSources();
 
-    roomCalculations.calculatePathsToSources();
+    roomCalculations.calculateAllPathsToSources();
+    //roomCalculations.buildMainPaths();
+    //roomCalculations.saveRoomSpawns("sim");
+    //roomCalculations.calculateRoomPathsToSources("sim");
+    //roomCalculations.saveRoomContructionSites("sim");
+    //roomCalculations.saveRoomRoadConstructionSites("sim");
+    roomCalculations.saveAllRoadConstructionSites();
 
     //run all rooms (important!)
     var myRooms = Game.rooms;
@@ -36,7 +42,7 @@ module.exports.loop = function () {
     }
 
     //console logs:
-    console.log('\n');
     console.log("CPU used: " + Math.floor(Game.cpu.getUsed() * 100)/100);
-
+    console.log("Bucket: " + Game.cpu.bucket);
+    console.log('\n');
 }

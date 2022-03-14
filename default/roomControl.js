@@ -23,9 +23,9 @@ const BPEASIEST = [
 ];
 
 const BPNORMAL = [
-    WORK, WORK,
+    WORK,
     CARRY, CARRY,
-    MOVE, MOVE, MOVE, MOVE
+    MOVE, MOVE
 ];
 
 const BPGENERAL = [
