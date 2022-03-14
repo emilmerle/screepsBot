@@ -1,6 +1,7 @@
 ## Memory:
 ## Global:
 - constructionSites: all construction sites (id)
+- roadConstructionSites: all road contruction sites (id)
 - rooms: all available rooms (roomname)
 - allSpawns: all my spawns (id)
 ### Creeps:

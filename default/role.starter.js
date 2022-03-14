@@ -1,6 +1,7 @@
 var harvestModule = require("harvestModule");
 var transferModule = require("transferModule");
 var buildingModule = require("buildingModule");
+var funnyFunctions = require("funnyFunctions");
 
 var roleStarter = {
 
@@ -19,6 +20,10 @@ var roleStarter = {
 
         if(creep.memory.working) {
             if (creep.room.energyAvailable === creep.room.energyCapacityAvailable) {
+                var text = "I'm friendly to everyone";
+                if (creep.room.controller.sign.text != text) {
+                    funnyFunctions.signMyController(creep, text);
+                }
                 buildingModule.upgradeRoomController(creep);
             } else {
                 transferModule.transferEnergy(creep);

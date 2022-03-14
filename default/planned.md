@@ -3,4 +3,4 @@
 - easier spawning of creeps
 - wanted structures and creeps per level
 - harvesting from sources in other room (without spawn)
-- automatic road building
+- automatic structure/ road building

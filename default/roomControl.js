@@ -18,7 +18,7 @@ var roomCalculations = require('roomCalculations');
 //  constants for the bodyparts of the creeps
 const BPEASIEST = [
     WORK,
-    CARRY,
+    CARRY, CARRY,
     MOVE, MOVE
 ];
 
@@ -98,7 +98,7 @@ var roomControl = {
     const WANTEDCARRIER = 3;
     const WANTEDSTATICHARVESTER = 3;
     const WANTEDUPGRADER = 0;
-    const WANTEDBUILDER = 0;
+    const WANTEDBUILDER = 3;
     const WANTEDREPAIRER = 0;
     const WANTEDROADBUILDER = 0;
     const WANTEDEXTRACTOR = 0;
@@ -156,13 +156,12 @@ var roomControl = {
             spawnControl.spawnRoleCreep(freeSpawn, "carrier", BPCARRIER);
         }
 
+        // TODO: naming and going to different sources
         if(staticHarvester.length < WANTEDSTATICHARVESTER){
-            var newName = "StaticHarvester" + 0;
-            console.log("Trying to spawn StaticHarvester");
-            if(Game.spawns[freeSpawn.name].spawnCreep(BPHARVESTER, newName, {memory: {role: "staticHarvester"}}) === ERR_NAME_EXISTS){
-                newName = "StaticHarvester" + 1;
-                Game.spawns[freeSpawn.name].spawnCreep(BPHARVESTER, newName, {memory: {role: "staticHarvester"}});
-            }
+            var newName = "StaticHarvester" + Game.time;
+            console.log("Trying to spawn StaticHarvester", newName);
+            Game.spawns[freeSpawn.name].spawnCreep(BPHARVESTER, newName,
+                {memory: {role: "staticHarvester"}});
         }
 
         else if(upgrader.length < WANTEDUPGRADER) {
