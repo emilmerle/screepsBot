@@ -9,6 +9,7 @@ module.exports = {
                 console.log("Initializing Memory for room ", roomName);
                 Memory[roomName] = {};
                 Memory[roomName].name = roomName;
+                Memory[roomName].energy = {};
                 //Memory[room].hasSpawn = hasSpawn;
                 //Memory[room].spawnQueue = [];
             } else {
@@ -19,8 +20,8 @@ module.exports = {
 
     saveRoomEnergyAvailable: function(roomName) {
         var room = Game.rooms[roomName];
-        Memory[roomName].energyCapacity = room.energyCapacityAvailable;
-        Memory[roomName].energyAvailable = room.energyAvailable;
+        Memory[roomName].energy.capacity = room.energyCapacityAvailable;
+        Memory[roomName].energy.available = room.energyAvailable;
     },
 
     // still updates memory of rooms

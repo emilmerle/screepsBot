@@ -38,9 +38,14 @@ const BPHARVESTER = [
     WORK, WORK,
     MOVE, MOVE
 ];
+const BPHARVESTERSCALE = [
+    WORK,
+    MOVE
+];
 
 const BPCARRIER = [
-    CARRY, CARRY, CARRY,
+    WORK,
+    CARRY, CARRY,
     MOVE, MOVE, MOVE
 ];
 
@@ -87,7 +92,6 @@ var roomControl = {
 
     //  getting the object of the room to the given roomName
     var room = Game.rooms[roomName];
-    console.log(room.energyCapacityAvailable);
 
     //  array with all the creeps in the room
     //var myCreeps = room.find(FIND_MY_CREEPS);
@@ -97,8 +101,9 @@ var roomControl = {
     var hasSpawn = (room.find(FIND_MY_SPAWNS).length > 0);
 
 
-
+    // calculations of room
     roomCalculations.saveRoomEnergyAvailable(roomName);
+    //roleStaticHarvester.spawn("Spawn1");
     
 
 
@@ -120,7 +125,7 @@ var roomControl = {
     //  filter creeps by role
     var starter = _.filter(myCreeps, (creep) => creep.memory.role === 'starter');
     var carrier = _.filter(myCreeps, (creep) => creep.memory.role === 'carrier');
-    var staticHarvester = _.filter(myCreeps, (creep) => creep.memory.role === "staticHarvester");
+    var staticHarvester = _.filter(myCreeps, (creep) => creep.memory.role === "staticHarvester" || creep.memory.role === "Harvester"); //remove once all creeps are same
     var upgrader = _.filter(myCreeps, (creep) => creep.memory.role === 'upgrader');
     var builder = _.filter(myCreeps, (creep) => creep.memory.role === 'builder');
     var repairer = _.filter(myCreeps, (creep) => creep.memory.role === 'repairer');
@@ -169,7 +174,6 @@ var roomControl = {
         if(staticHarvester.length < WANTEDSTATICHARVESTER){
             var newName = "StaticHarvester" + Game.time;
             console.log("Trying to spawn StaticHarvester", newName);
-            console.log(BPTEST*2);
             Game.spawns[freeSpawn.name].spawnCreep(BPHARVESTER, newName,
                 {memory: {role: "staticHarvester"}});
         }
