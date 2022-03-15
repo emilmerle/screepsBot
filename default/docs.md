@@ -21,3 +21,6 @@
 - mainPaths: paths from all spawns to all sources and the controller in the room (serialized Path (string))
 - constructionSites: all my construction sites in the room (id)
 - roadConstructionSites: all road construction sites in the room (id)
+- energy: 
+    - capacity: max energy capacity in the room (number)
+    - available: current energy available in spawns and extension in the room (number)

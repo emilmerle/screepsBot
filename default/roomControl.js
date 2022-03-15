@@ -18,8 +18,8 @@ var roomCalculations = require('roomCalculations');
 //  constants for the bodyparts of the creeps
 const BPEASIEST = [
     WORK,
-    CARRY, CARRY,
-    MOVE, MOVE
+    CARRY,
+    MOVE
 ];
 
 const BPNORMAL = [
@@ -66,6 +66,11 @@ const BPCLAIMER = [
     MOVE, MOVE
 ];
 
+const BPTEST = [
+    WORK,
+    MOVE
+];
+
 
 
 /**
@@ -82,6 +87,7 @@ var roomControl = {
 
     //  getting the object of the room to the given roomName
     var room = Game.rooms[roomName];
+    console.log(room.energyCapacityAvailable);
 
     //  array with all the creeps in the room
     //var myCreeps = room.find(FIND_MY_CREEPS);
@@ -89,8 +95,11 @@ var roomControl = {
 
     //  hasSpawn is true when theres a spawn in the room, false if not
     var hasSpawn = (room.find(FIND_MY_SPAWNS).length > 0);
-    
 
+
+
+    roomCalculations.saveRoomEnergyAvailable(roomName);
+    
 
 
     // constants for how many creeps per role there should be in a room
@@ -98,7 +107,7 @@ var roomControl = {
     const WANTEDCARRIER = 3;
     const WANTEDSTATICHARVESTER = 3;
     const WANTEDUPGRADER = 0;
-    const WANTEDBUILDER = 3;
+    const WANTEDBUILDER = 5;
     const WANTEDREPAIRER = 0;
     const WANTEDROADBUILDER = 0;
     const WANTEDEXTRACTOR = 0;
@@ -160,6 +169,7 @@ var roomControl = {
         if(staticHarvester.length < WANTEDSTATICHARVESTER){
             var newName = "StaticHarvester" + Game.time;
             console.log("Trying to spawn StaticHarvester", newName);
+            console.log(BPTEST*2);
             Game.spawns[freeSpawn.name].spawnCreep(BPHARVESTER, newName,
                 {memory: {role: "staticHarvester"}});
         }

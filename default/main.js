@@ -6,6 +6,11 @@ var constants = require("level");
 
 module.exports.loop = function () {
 
+    if (Game.cpu.bucket === 10000) {
+        console.log("GENERATING PIXEL BECAUSE OF FULL BUCKET! WOHOO!")
+        Game.cpu.generatePixel();
+    }
+
     //Clearing memory of dead creeps
     for(var name in Memory.creeps) {
         if(!Game.creeps[name]) {
@@ -33,7 +38,8 @@ module.exports.loop = function () {
     //roomCalculations.calculateRoomPathsToSources("sim");
     //roomCalculations.saveRoomContructionSites("sim");
     //roomCalculations.saveRoomRoadConstructionSites("sim");
-    roomCalculations.saveAllRoadConstructionSites();
+    //roomCalculations.saveAllRoadConstructionSites();
+    //roomCalculations.saveRoomEnergyAvailable("sim");
 
     //run all rooms (important!)
     var myRooms = Game.rooms;

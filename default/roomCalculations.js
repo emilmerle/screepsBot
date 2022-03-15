@@ -17,6 +17,12 @@ module.exports = {
         }
     },
 
+    saveRoomEnergyAvailable: function(roomName) {
+        var room = Game.rooms[roomName];
+        Memory[roomName].energyCapacity = room.energyCapacityAvailable;
+        Memory[roomName].energyAvailable = room.energyAvailable;
+    },
+
     // still updates memory of rooms
     saveAllSpawns: function() {
         var allSpawns = [];
