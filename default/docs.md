@@ -24,3 +24,5 @@
 - energy: 
     - capacity: max energy capacity in the room (number)
     - available: current energy available in spawns and extension in the room (number)
+- freeEnergyStructures: structures that have not full energy store
+- fullEnergyStructures: structures that habe a full energy store

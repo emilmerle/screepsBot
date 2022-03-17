@@ -103,6 +103,8 @@ var roomControl = {
 
     // calculations of room
     roomCalculations.saveRoomEnergyAvailable(roomName);
+    roomCalculations.saveRoomFullEnergyStructures(roomName);
+    roomCalculations.saveRoomFreeEnergyStructures(roomName);
     //roleStaticHarvester.spawn("Spawn1");
     
 
@@ -112,7 +114,7 @@ var roomControl = {
     const WANTEDCARRIER = 3;
     const WANTEDSTATICHARVESTER = 3;
     const WANTEDUPGRADER = 0;
-    const WANTEDBUILDER = 5;
+    const WANTEDBUILDER = 6;
     const WANTEDREPAIRER = 0;
     const WANTEDROADBUILDER = 0;
     const WANTEDEXTRACTOR = 0;

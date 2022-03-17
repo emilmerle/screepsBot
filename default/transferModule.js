@@ -43,6 +43,8 @@ module.exports = {
                 }
             });
         }
+
+
         //transfering the energy to the targets
         if (targets.length) {
             if (creep.transfer(targets[0], RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {

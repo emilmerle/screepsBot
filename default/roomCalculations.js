@@ -24,6 +24,28 @@ module.exports = {
         Memory[roomName].energy.available = room.energyAvailable;
     },
 
+    saveRoomFreeEnergyStructures: function(roomName) {
+        var room = Game.rooms[roomName];
+        var targets = room.find(FIND_STRUCTURES, {
+            filter: (structure) => {
+                return (structure.store)
+                    && structure.store.getFreeCapacity(RESOURCE_ENERGY) > 0;
+            }
+        });
+        Memory[roomName].freeEnergyStructures = targets.map(structure => structure.id);
+    },
+
+    saveRoomFullEnergyStructures: function(roomName) {
+        var room = Game.rooms[roomName];
+        var targets = room.find(FIND_STRUCTURES, {
+            filter: (structure) => {
+                return (structure.store)
+                    && structure.store.getFreeCapacity(RESOURCE_ENERGY) == 0;
+            }
+        });
+        Memory[roomName].fullEnergyStructures = targets.map(structure => structure.id);
+    },
+
     // still updates memory of rooms
     saveAllSpawns: function() {
         var allSpawns = [];
