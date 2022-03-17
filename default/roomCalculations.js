@@ -2,6 +2,9 @@ var constants = require("level");
 
 module.exports = {
 
+    /**
+     * Initializes the memory for a room so other function can access the memory object.
+     */
     initializeMemory: function() {
         //initializing memory objects for every room
         for(var roomName in Game.rooms){
@@ -18,12 +21,18 @@ module.exports = {
         }
     },
 
+    /** 
+     * Saves how much energy is available to spawn new creeps.
+     */
     saveRoomEnergyAvailable: function(roomName) {
         var room = Game.rooms[roomName];
         Memory[roomName].energy.capacity = room.energyCapacityAvailable;
         Memory[roomName].energy.available = room.energyAvailable;
     },
 
+    /** 
+     * Saves all structures in a room that have a partially filled energy store.
+     */ 
     saveRoomFreeEnergyStructures: function(roomName) {
         var room = Game.rooms[roomName];
         var targets = room.find(FIND_STRUCTURES, {
@@ -35,6 +44,9 @@ module.exports = {
         Memory[roomName].freeEnergyStructures = targets.map(structure => structure.id);
     },
 
+    /** 
+     * Saves all structures in a room that have a full energy store.
+     */ 
     saveRoomFullEnergyStructures: function(roomName) {
         var room = Game.rooms[roomName];
         var targets = room.find(FIND_STRUCTURES, {
@@ -46,7 +58,11 @@ module.exports = {
         Memory[roomName].fullEnergyStructures = targets.map(structure => structure.id);
     },
 
-    // still updates memory of rooms
+    /**
+     * Saves all own spawns in the global Memory.allSpawns object and
+     * in all Memory[roomName].allSpaws object.
+     * still updates memory of rooms.
+     */
     saveAllSpawns: function() {
         var allSpawns = [];
         var allRoomsSpawns = [];
@@ -64,13 +80,22 @@ module.exports = {
         Memory.allSpawns = allSpawns; 
     },
 
+    /**
+     * Saves all spawns in that room in the Memory[roomName].allSpawns object.
+     * @param {String} roomName 
+     */
     saveRoomSpawns: function(roomName) {
         var room = Game.rooms[roomName];
         var spawns = room.find(FIND_MY_SPAWNS);
         Memory[roomName].allSpawns = Object.values(spawns).map(spawn => spawn.id);
     },
 
-    // should maybe only be called once
+    /**
+     * Should maybe only called once. 
+     * Calculates all pathes from all spawns to all sources 
+     * and from controller to all sources in a room
+     * and saves them serialized in the Memory[roomName].mainPaths object.
+     */
     calculateAllPathsToSources: function() {
         var room;
         var arr = [];
@@ -102,7 +127,13 @@ module.exports = {
         }
     },
 
-    // should be called after spawns and sources are written into memory
+    /**
+     * Calculates all pathes from all spawns to all sources 
+     * and from controller to all sources in the room
+     * and saves them serialized in the Memory[roomName].mainPaths object.
+     * Should be called after spawns and sources are written into memory.
+     * @param {String} roomName 
+     */
     calculateRoomPathsToSources: function(roomName) {
         var room = Game.rooms[roomName];
 
@@ -129,7 +160,11 @@ module.exports = {
         Memory[roomName].mainPaths = arr;
     },
 
-    // should maybe only be called once
+    /**
+     * Places road construction sites on the paths in the
+     * Memory[roomName].mainPaths object.
+     * Should maybe be only called once.
+     */
     buildAllMainPaths: function() {
         for(var roomName in Game.rooms){
             var room = Game.rooms[roomName];
@@ -144,7 +179,12 @@ module.exports = {
         }
     },
 
-    // should only be called after main pathes are calculated
+    /**
+     * Places road construction sites on the paths in the
+     * Memory[roomName].mainPaths object.
+     * Should only be called after main pathes are calculated.
+     * @param {String} roomName 
+     */
     buildRoomMainPaths: function(roomName) {
         var room = Game.rooms[roomName];
 
@@ -159,6 +199,7 @@ module.exports = {
     },
 
     /**
+     * Places road construction sites on the given serialized path in the room.
      * @param {String} path as serialized string
      */
     buildRoadsOnPath: function(roomName, serializedPath) {
@@ -178,11 +219,18 @@ module.exports = {
         }
     },
 
+    /**
+     * Saves all available rooms in the global Memory.rooms object.
+     */
     saveAllAvailableRooms: function() {
         var rooms = Game.rooms;
         Memory.rooms = Object.keys(rooms);
     },
 
+    /**
+     * Saves all damaged structures in all rooms
+     * in the Memory[roomName].damagedStrucutes object.
+     */
     saveAllDamagedStructures: function() {
         for(var roomName in Game.rooms){
             var room = Game.rooms[roomName];
@@ -198,6 +246,11 @@ module.exports = {
         
     },
 
+    /**
+     * Saves all damaged structures in the room
+     * in the Memory[roomName].damagedStrucutes object.
+     * @param {String} roomName
+     */
     saveRoomDamagedStructures: function(roomName) {
         var room = Game.rooms[roomName];
         var structures;
@@ -210,6 +263,10 @@ module.exports = {
         Memory[roomName].damagedStructures = Object.values(structures).map(x => x.id);
     },
 
+    /**
+     * Saves all road construction sites of all rooms
+     * in the global Memory.roadConstructionSites object.
+     */
     saveAllRoadConstructionSites: function() {
         var constructionSites = Game.constructionSites;
         var roads = Object.values(constructionSites).filter(
@@ -218,6 +275,11 @@ module.exports = {
         Memory.roadConstructionSites = Object.values(roads).map(site => site.id);
     },
 
+    /**
+     * Saves all road construction sites in the room
+     * in the Memory[roomName].roadContructionSites object.
+     * @param {String} roomName 
+     */
     saveRoomRoadConstructionSites: function(roomName) {
         var room = Game.rooms[roomName];
         var roads = room.find(FIND_MY_CONSTRUCTION_SITES, {
@@ -228,22 +290,41 @@ module.exports = {
         Memory[roomName].roadContructionSites = Object.values(roads).map(site => site.id);
     },
 
+    /**
+     * Saves all construction sites of all rooms
+     * in the global Memory.constructionSites object.
+     */
     saveAllConstructionSites: function() {
         var constructionSites = Game.constructionSites;
         Memory.constructionSites = Object.keys(constructionSites);
     },
 
+    /**
+     * Saves all construction sites in the room
+     * in the Memory[roomName].constructionSites object.
+     * @param {String} roomName 
+     */
     saveRoomContructionSites: function(roomName) {
         var room = Game.rooms[roomName];
         var constructionSites = room.find(FIND_MY_CONSTRUCTION_SITES);
         Memory[roomName].constructionSites = Object.values(constructionSites).map(site => site.id);
     },
 
+    /**
+     * Returns whether the given room has a spawn or not.
+     * @param {String} roomName 
+     * @returns {Boolean} True if the room has a spawn, false if not
+     */
     hasSpawn: function(roomName){ 
         var room = Game.rooms[roomName];
         return (room.find(FIND_MY_SPAWNS).length > 0);
     },
 
+    /**
+     * Returns whether the given room has a spawn or not.
+     * @param {String} roomName 
+     * @returns {Boolean} True if the room has a storage, false if not
+     */
     hasStorage: function(roomName){
         var room = Game.rooms[roomName];
         return (room.find(FIND_MY_STRUCTURES, {
