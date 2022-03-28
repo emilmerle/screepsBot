@@ -111,7 +111,7 @@ var roomControl = {
 
     // constants for how many creeps per role there should be in a room
     const WANTEDSTARTER = 1;
-    const WANTEDCARRIER = 3;
+    const WANTEDCARRIER = 4;
     const WANTEDSTATICHARVESTER = 3;
     const WANTEDUPGRADER = 0;
     const WANTEDBUILDER = 6;

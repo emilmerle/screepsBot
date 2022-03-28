@@ -18,20 +18,20 @@ var roleCarrier = {
 	    }
 
         if(creep.memory.working) {
-			if (creep.room.energyAvailable < creep.room.energyCapacityAvailable) {
+			if (Memory[creep.room.name].freeEnergyStructures.length) {
 				transferModule.transferEnergy(creep);
 			} else {
 				buildingModule.upgradeRoomController(creep);
 			}
         } else {
-            if(Memory[creep.room.name].droppedEnergy.length) {
+            if(false/*Memory[creep.room.name].droppedEnergy.length*/) {
 				harvestModule.pickupClosestDroppedEnergy(creep);
 			} else if (Memory[creep.room.name].otherEnergy.length) {
 				harvestModule.lootEnergy(creep);
-			} else if (Memory[creep.room.name].energyStorage != null) {
-				harvestModule.harvestClosestStorage(creep);
 			} else if (Memory[creep.room.name].energyContainers.length) {
 				harvestModule.harvestClosestContainer(creep);
+			} else if (Memory[creep.room.name].energyStorage != null) {
+				harvestModule.harvestClosestStorage(creep);
 			} else {
 				harvestModule.harvestEnergySources(creep);
 			}

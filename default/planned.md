@@ -5,3 +5,5 @@
 - wanted structures and creeps per level/ energy capacity
 - harvesting from sources in other room (without spawn)
 - automatic structure/ road building
+- documentation of all functions and modules
+- better calculations and memory usage
