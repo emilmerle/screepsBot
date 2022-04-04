@@ -27,9 +27,7 @@ var roleBuilder = {
 			}
 	    }
 	    else {
-			if(Memory[creep.room.name].droppedEnergy.length) {
-				harvestModule.pickupClosestDroppedEnergy(creep);
-			} else if (Memory[creep.room.name].otherEnergy.length) {
+			if (Memory[creep.room.name].otherEnergy.length) {
 				harvestModule.lootEnergy(creep);
 			} else if (Memory[creep.room.name].energyStorage != null) {
 				harvestModule.harvestClosestStorage(creep);

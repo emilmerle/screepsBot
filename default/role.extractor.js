@@ -8,18 +8,22 @@ var roleExtractor = {
 
         if(creep.memory.working && creep.store[RESOURCE_ENERGY] === 0) {
             creep.memory.working = false;
-            creep.say('🔄 harvest');
 	    }
 	    if(!creep.memory.working && creep.store.getFreeCapacity() === 0) {
 	        creep.memory.working = true;
-	        creep.say('transfering');
 	    }
 
 	    if(creep.memory.working) {
             transferModule.transferMinerals(creep);
+            creep.say("💾");
         }
         else {
-            harvestModule.harvestClosestMineral(creep);
+            // only if there ate minerals and at least one extractor
+            // maybe needs rework, because found minerals could not have an extractor
+            if (Memory[creep.room.name].minerals.length && Memory[creep.room.name].extractors.length) {
+                harvestModule.harvestClosestMineral(creep);
+                creep.say("💎");
+            }
         }
 	}
 };

@@ -1,6 +1,6 @@
 var roomControl = require("roomControl");
 var roomCalculations = require("roomCalculations");
-var roomSources = require("roomSources");
+var sourceModule = require("sourceModule");
 
 var constants = require("level");
 
@@ -26,13 +26,15 @@ module.exports.loop = function () {
     roomCalculations.saveAllConstructionSites();
     roomCalculations.saveAllSpawns();
 
-    roomSources.saveContainers();
-    roomSources.saveStorages();
-    roomSources.saveEnergySources();
-    roomSources.saveDroppedEnergy();
-    roomSources.saveWithdrawSources();
+    sourceModule.saveContainers();
+    sourceModule.saveStorages();
+    sourceModule.saveEnergySources();
+    sourceModule.saveDroppedEnergy();
+    sourceModule.saveWithdrawSources();
+    sourceModule.saveAllMinerals();
+    sourceModule.saveExtractors();
 
-    roomCalculations.calculateAllPathsToSources();
+    //roomCalculations.calculateAllPathsToSources();
     //roomCalculations.buildMainPaths();
     //roomCalculations.saveRoomSpawns("sim");
     //roomCalculations.calculateRoomPathsToSources("sim");

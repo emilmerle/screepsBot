@@ -69,16 +69,19 @@ module.exports = {
         if(targets.length){
             var ret;
             for(const resourceType in creep.carry) {
-                //console.log(resourceType)
+                ret = creep.transfer(targets[0], resourceType);
+                /*
                 if(resourceType != RESOURCE_ENERGY){
                     ret = creep.transfer(targets[0], resourceType);
                     console.log(resourceType);
                 }
+                */
             }
 
             if (ret === ERR_NOT_IN_RANGE) {
                 creep.moveTo(targets[0]);
             }
+            
             creep.memory.target = targets[0];
         }
     }

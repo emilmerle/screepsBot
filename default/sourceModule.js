@@ -8,6 +8,28 @@ module.exports = {
 
     },
 
+
+    saveExtractors: function() {
+        for(var roomName in Game.rooms){
+            var room = Game.rooms[roomName];
+            var extractors = room.find(FIND_STRUCTURES, {
+                filter: (structure) => {
+                    return (structure.structureType == STRUCTURE_EXTRACTOR);
+                }
+            }).map(x => x.id);
+
+            if (extractors.length) {
+                Memory[roomName].extractors = extractors;
+            } else {
+                Memory[roomName].extractors = null;
+            }
+        }
+    },
+
+    saveRoomExtractors: function(roomName){
+
+    },
+
     saveStorages: function() {
         for(var roomName in Game.rooms){
             var storage = Game.rooms[roomName].storage;
@@ -49,8 +71,21 @@ module.exports = {
         
     },
 
-    saveMinerals: function() {
+    saveAllMinerals: function() {
         FIND_MINERALS;
+        for(var roomName in Game.rooms){
+            var room = Game.rooms[roomName];
+
+            // tombstones maybe decay too fast to get them but then drop all resources 
+            var minerals = room.find(FIND_MINERALS)
+                .map(x => x.id);
+
+           Memory[roomName].minerals = minerals;
+        }
+    },
+
+    saveRoomMinerals: function(roomName) {
+
     },
 
     saveEnergySources: function() {

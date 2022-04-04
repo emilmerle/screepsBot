@@ -73,7 +73,7 @@ module.exports = {
      * @param {Object} creep creep that should harvest a mineral
      */
     harvestClosestMineral: function(creep){
-        var source = creep.pos.findClosestByRange(FIND_MINERALS);
+        var source = Game.getObjectById(Memory[creep.room.name].minerals[0]);
         
         if(source) {
             if(creep.harvest(source) === ERR_NOT_IN_RANGE) {

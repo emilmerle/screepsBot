@@ -29,9 +29,9 @@ const BPNORMAL = [
 ];
 
 const BPGENERAL = [
-    WORK, WORK, WORK, WORK, WORK,
-    CARRY, CARRY, CARRY, CARRY, CARRY,
-    MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE
+    WORK, WORK, WORK,
+    CARRY, CARRY, CARRY,
+    MOVE, MOVE, MOVE, MOVE, MOVE, MOVE,
 ];
 
 const BPHARVESTER = [
@@ -117,7 +117,7 @@ var roomControl = {
     const WANTEDBUILDER = 6;
     const WANTEDREPAIRER = 0;
     const WANTEDROADBUILDER = 0;
-    const WANTEDEXTRACTOR = 0;
+    const WANTEDEXTRACTOR = 1;
     const WANTEDFIGHTER = 0;
     const WANTEDEXPLORER = 0;
     const WANTEDCLAIMER = 0;

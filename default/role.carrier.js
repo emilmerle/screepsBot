@@ -24,7 +24,7 @@ var roleCarrier = {
 				buildingModule.upgradeRoomController(creep);
 			}
         } else {
-            if(false/*Memory[creep.room.name].droppedEnergy.length*/) {
+            if(Memory[creep.room.name].droppedEnergy.length) {
 				harvestModule.pickupClosestDroppedEnergy(creep);
 			} else if (Memory[creep.room.name].otherEnergy.length) {
 				harvestModule.lootEnergy(creep);
